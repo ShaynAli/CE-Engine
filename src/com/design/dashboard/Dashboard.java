@@ -25,9 +25,13 @@ public class Dashboard extends VerticalLayout {
 	protected NativeButton user_menu;
 	protected HorizontalLayout main_area;
 	protected CssLayout side_bar;
-	protected NativeButton menuButton1;
-	protected NativeButton menuButton2;
-	protected NativeButton menuButton3;
+	protected NativeButton usageButton;
+	protected NativeButton mapsButton;
+	protected NativeButton mathButton;
+	protected NativeButton newsButton;
+	protected NativeButton weatherButton;
+	protected NativeButton queryButton;
+	protected NativeButton databaseButton;
 	protected Panel scroll_panel;
 
 	public Dashboard() {

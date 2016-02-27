@@ -3,6 +3,7 @@ package com.example.designgui;
 import javax.servlet.annotation.WebServlet;
 
 import com.design.dashboard.Dashboard;
+import com.design.dashboard.DashboardDesign;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -26,7 +27,7 @@ public class DesignguiUI extends UI {
 	protected void init(VaadinRequest request) {
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
-		setContent(new Dashboard());
+		setContent(new DashboardDesign());
 
 		Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {
