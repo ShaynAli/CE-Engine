@@ -1,18 +1,57 @@
 package com.design.dashboard;
 
+import com.design.directions.DashView;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 public class DashboardDesign extends Dashboard {
+	
+	DashView directions;
+	DashView news;
+	DashView weather;
+	DashView math;
 
 	public DashboardDesign () {
 		super();
+		directions = new DashView("Directions", "directions", "Direction Queries");
+		news = new DashView ("News", "news", "News Queries");
+		weather = new DashView ("Weather", "weather", "Weather Queries");
+		math = new DashView ("Wolfram Alpha", "math", "Wolfram Alpha Queries");
+		
+		select.removeAllItems();
+		
+		select.addItem("Both");
+		select.addItem("SMS");
+		select.addItem("Voice");
+		select.select("Both");
+		select.setNullSelectionAllowed(false);
+		
 		clickListeners();
 	}
 	
 	public void clickListeners () {
+		
+		select.addValueChangeListener(new ValueChangeListener () {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if (select.getValue().equals("Both")) {
+					directions.switchToBoth();
+					news.switchToBoth();
+				} else if (select.getValue().equals("SMS")) {
+					directions.switchToSms();
+					news.switchToSms();
+				} else if (select.getValue().equals("Voice")) {
+					directions.switchToVoice();
+					news.switchToVoice();
+				}
+			}
+			
+		});
 		
 		newsButton.setIcon(FontAwesome.NEWSPAPER_O);
 		
@@ -27,6 +66,8 @@ public class DashboardDesign extends Dashboard {
 				weatherButton.setStyleName("menu-button");
 				queryButton.setStyleName("menu-button");
 				databaseButton.setStyleName("menu-button");
+				
+				
 		
 			}
 			
@@ -44,6 +85,10 @@ public class DashboardDesign extends Dashboard {
 				queryButton.setStyleName("menu-button");
 				databaseButton.setStyleName("menu-button");
 				
+				scroll_panel.setContent(directions);
+				
+				
+				
 			}
 			
 		});
@@ -60,6 +105,8 @@ public class DashboardDesign extends Dashboard {
 				queryButton.setStyleName("menu-button");
 				databaseButton.setStyleName("menu-button");
 				
+				scroll_panel.setContent(math);
+				
 			}
 			
 		});
@@ -75,7 +122,7 @@ public class DashboardDesign extends Dashboard {
 				weatherButton.setStyleName("menu-button");
 				queryButton.setStyleName("menu-button");
 				databaseButton.setStyleName("menu-button");
-				
+				scroll_panel.setContent(news);
 			}
 			
 		});
@@ -90,7 +137,9 @@ public class DashboardDesign extends Dashboard {
 				newsButton.setStyleName("menu-button");
 				weatherButton.setStyleName("menu-button selected");
 				queryButton.setStyleName("menu-button");
-				databaseButton.setStyleName("menu-button");				
+				databaseButton.setStyleName("menu-button");		
+				
+				scroll_panel.setContent(weather);
 			}
 			
 		});

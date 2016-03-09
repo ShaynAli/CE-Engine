@@ -6,7 +6,11 @@
  <body> 
   <vaadin-vertical-layout caption="Coneection" style-name="root-layout navigation-template-vaadin" responsive="true" size-full="true" _id="root_layout"> 
    <vaadin-css-layout style-name="header-bar" width-full="true" height="44px" _id="header_bar"> 
-    <vaadin-native-button icon="fonticon://FontAwesome/f078" style-name="user-menu" width="20px" height="20px" plain-text="" _id="user_menu"></vaadin-native-button> 
+    <vaadin-combo-box id="select" item-caption-mode="id" _id="select"> 
+     <option>Option 1</option> 
+     <option>Option 2</option> 
+     <option>Option 3</option> 
+    </vaadin-combo-box> 
    </vaadin-css-layout> 
    <vaadin-horizontal-layout style-name="main-area-layout" size-full="true" _id="main_area" :expand=""> 
     <vaadin-css-layout style-name="side-bar" height-full="true" _id="side_bar"> 

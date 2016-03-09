@@ -9,4 +9,5 @@
   <installed facet="jst.web" version="3.1"/>
   <installed facet="wst.jsdt.web" version="1.0"/>
   <installed facet="com.vaadin.integration.eclipse.core" version="7.0"/>
+  <installed facet="jpt.jpa" version="2.1"/>
 </faceted-project>
