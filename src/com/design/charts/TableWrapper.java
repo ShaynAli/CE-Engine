@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.design.persistence.Directions;
+import com.design.persistence.News;
 import com.design.persistence.Queries;
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.util.filter.Compare;
@@ -33,6 +34,12 @@ public class TableWrapper extends VerticalLayout {
 		
 		if (type.equals("directions")) {
 			table = buildDirectionsTable();
+		} else if (type.equals("news")) {
+			table = buildNewsTable();
+		} else if (type.equals("weather")) {
+			table = buildWeatherTable();
+		} else if (type.equals("math")) {
+			table = buildWolframTable();
 		} else {
 			table = new Table();
 		}
@@ -92,6 +99,110 @@ public class TableWrapper extends VerticalLayout {
   
         //table.addStyleName("table-padding");
         
+		return table;
+	}
+	
+	public Table buildWeatherTable () {
+		Table table = new Table();
+		table.addContainerProperty("#", Integer.class, 0);
+		table.addContainerProperty("query", String.class, null);
+		table.addContainerProperty("success", CheckBox.class, null);
+		table.addContainerProperty("type", String.class, null);
+		
+		table.setColumnAlignments(Align.CENTER, Align.CENTER, Align.CENTER, Align.CENTER);
+		table.setColumnHeaders("#", "Query", "Successful", "Type");
+		
+		table.addStyleName(ValoTheme.TABLE_NO_STRIPES);
+		table.addStyleName(ValoTheme.TABLE_SMALL);
+		table.setHeight("95%");
+		table.setWidth("97%");
+		table.setImmediate(true);
+		
+		String qu = "SELECT x FROM Queries AS x where x.class1='weather'";
+		List <Queries> weather = em.createQuery(qu).getResultList();
+		
+		for (int i = 0; i < weather.size(); i++) {
+			CheckBox box = new CheckBox();
+			box.setValue(weather.get(i).getSuccessful());
+			box.setEnabled(false);
+			table.addItem(new Object [] {i + 1,  weather.get(i).getQuery(), box, weather.get(i).getType()}, weather.get(i).getId());
+		}
+		
+		table.setVisibleColumns("#", "query", "success");
+		table.sort(new Object [] {"type"}, new boolean [] {false});
+		
+		return table;
+	}
+	
+	public Table buildWolframTable () {
+		Table table = new Table();
+		table.addContainerProperty("#", Integer.class, 0);
+		table.addContainerProperty("query", String.class, null);
+		table.addContainerProperty("success", CheckBox.class, null);
+		table.addContainerProperty("type", String.class, null);
+		
+		table.setColumnAlignments(Align.CENTER, Align.CENTER, Align.CENTER, Align.CENTER);
+		table.setColumnHeaders("#", "Query", "Successful", "Type");
+		
+		table.addStyleName(ValoTheme.TABLE_NO_STRIPES);
+		table.addStyleName(ValoTheme.TABLE_SMALL);
+		table.setHeight("95%");
+		table.setWidth("97%");
+		table.setImmediate(true);
+		
+		String qu = "SELECT x FROM Queries AS x where x.class1='math'";
+		List <Queries> wolf = em.createQuery(qu).getResultList();
+		
+		for (int i = 0; i < wolf.size(); i++) {
+			CheckBox box = new CheckBox();
+			box.setValue(wolf.get(i).getSuccessful());
+			box.setEnabled(false);
+			
+			table.addItem(new Object [] {i + 1,  wolf.get(i).getQuery(), box, wolf.get(i).getType()}, wolf.get(i).getId());
+		}
+		
+		table.setVisibleColumns("#", "query", "success");
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+		
+		return table;
+	}
+	
+	public Table buildNewsTable () {
+		Table table = new Table();
+		table.addContainerProperty("#", Integer.class, 0);
+		table.addContainerProperty("query", String.class, null);
+		table.addContainerProperty("success", CheckBox.class, new CheckBox("", true));
+		table.addContainerProperty("publisher", String.class, null);
+		table.addContainerProperty("type", String.class, null);
+		
+		table.setColumnAlignments(Align.CENTER, Align.CENTER, Align.CENTER, Align.CENTER, Align.CENTER);
+		table.setColumnHeaders("#", "Query", "Successful", "Publisher", "Sort");
+		
+		table.addStyleName(ValoTheme.TABLE_NO_STRIPES);
+		table.addStyleName(ValoTheme.TABLE_SMALL);
+		table.setHeight("95%");
+		table.setWidth("97%");
+		table.setImmediate(true);
+		
+		
+		
+		String qu = "SELECT x FROM News AS x";
+		List <News> news = em.createQuery(qu).getResultList();
+		
+		for (int i = 0; i < news.size(); i++) {
+			CheckBox box = new CheckBox();
+			box.setValue(news.get(i).getQueries().getSuccessful());
+			box.setEnabled(false);
+			table.addItem(new Object []{i + 1, news.get(i).getQueries().getQuery(), box, news.get(i).getPublisher(), news.get(i).getQueries().getType()}, news.get(i).getId());
+			
+			System.out.println(news.get(i).getQueries().getType());
+			
+			//System.out.println(i + ": " + news.get(i).getQueries().getQuery() + ", " + news.get(i).getQueries().getSuccessful() + ", "
+					//+ news.get(i).getPublisher());
+		}
+		table.setVisibleColumns("#", "query", "success", "publisher");
+		table.sort(new Object []{"#"}, new boolean [] {false});
+		
 		return table;
 		
 	}

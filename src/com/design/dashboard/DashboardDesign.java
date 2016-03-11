@@ -42,12 +42,18 @@ public class DashboardDesign extends Dashboard {
 				if (select.getValue().equals("Both")) {
 					directions.switchToBoth();
 					news.switchToBoth();
+					math.switchToBoth();
+					weather.switchToBoth();
 				} else if (select.getValue().equals("SMS")) {
 					directions.switchToSms();
 					news.switchToSms();
+					math.switchToSms();
+					weather.switchToSms();
 				} else if (select.getValue().equals("Voice")) {
 					directions.switchToVoice();
 					news.switchToVoice();
+					math.switchToVoice();
+					weather.switchToVoice();
 				}
 			}
 			
