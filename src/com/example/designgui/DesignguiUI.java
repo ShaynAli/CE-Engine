@@ -19,7 +19,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("designgui")
 public class DesignguiUI extends UI {
 
-	@WebServlet(value = "/*", asyncSupported = true)
+	@WebServlet(value = {"/app/*", "/VAADIN/*"}, asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = DesignguiUI.class, widgetset = "com.example.designgui.widgetset.DesignguiWidgetset")
 	public static class Servlet extends VaadinServlet {
 	}

@@ -7,6 +7,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class DashboardDesign extends Dashboard {
 	
@@ -31,6 +32,8 @@ public class DashboardDesign extends Dashboard {
 		select.setNullSelectionAllowed(false);
 		
 		clickListeners();
+		
+		clear.addStyleName(ValoTheme.BUTTON_DANGER);
 	}
 	
 	public void clickListeners () {

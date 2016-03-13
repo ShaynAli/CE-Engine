@@ -51,6 +51,7 @@
    name="jpacontainer" 
    rev="3.2.0" />
 			
+			<dependency org="net.sf.sprockets" name="sprockets" rev="3.0.0"/>
 			
 			
 			<dependency
@@ -58,7 +59,23 @@
    name="vaadin-charts"
    rev="3.0.0-beta1" />
    
+   <dependency 
+   org="com.vaadin.tapio" 
+   name="googlemaps" 
+   rev="1.1.2" />
+   
    <dependency org="org.apache.commons" name="commons-lang3" rev="3.0"/>
+   <dependency org="com.ibm.watson.developer_cloud" name="java-sdk" rev="2.8.0"/>
+   <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.2"/>
+   <dependency org="org.glassfish" name="javax.json" rev="1.0.4"/>
+   <dependency org="com.google.maps" name="google-maps-services" rev="0.1.11"/>
+   <dependency org="mysql" name="mysql-connector-java" rev="5.1.38"/>
+   <dependency org="com.twilio.sdk" name="twilio-java-sdk" rev="6.3.0"/>
+   <dependency org="org.json" name="json" rev="20160212"/>
+
+   
+   
+   
    
 	</dependencies>
 </ivy-module>
