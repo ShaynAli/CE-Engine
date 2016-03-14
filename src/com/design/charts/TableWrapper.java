@@ -77,18 +77,17 @@ public class TableWrapper extends VerticalLayout {
 		for (int i =0; i <queries.size(); i++){
 			CheckBox box = new CheckBox();
 			box.setValue(queries.get(i).getSuccessful());
+			box.setEnabled(false);
 			
-			Object [] obj = {i + 1, queries.get(i).getQuery(), queries.get(i).getClass(),
-					box, queries.get(i).getType()};
-			
-			table.addItem(obj, queries.get(i).getId());
+			table.addItem(new Object [] {i + 1, queries.get(i).getQuery(), queries.get(i).getClass1(),
+					box, queries.get(i).getType()}, queries.get(i).getId());
 		}
 		
 		table.setImmediate(true);
 		table.setVisibleColumns("#", "query", "success", "class");
 		table.setColumnAlignments(Align.CENTER, Align.CENTER, Align.CENTER, Align.CENTER);
 		
-		table.setColumnHeaders("#", "Query", "Successful", "Class", "Type");
+		table.setColumnHeaders("#", "Query", "Successful", "Class");
 		table.sort(new Object [] {"#"}, new boolean [] {false});
 		
         table.addStyleName(ValoTheme.TABLE_NO_STRIPES);

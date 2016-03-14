@@ -101,7 +101,7 @@ public class DashView extends Panel {
 	        	dashboardPanels.addComponent(buildDistanceChart(2));
 	        	dashboardPanels.addComponent(buildQueryTable(3));	        	
 	        } else if (type.equals("news")) {
-	        	//dashboardPanels.addComponent(c); publisher
+	        	//dashboardPanels.addComponent(c); publisher  ---> LAST CHART TO FINISH
 	        	dashboardPanels.addComponent(buildConfidenceChart(0)); 
 	        	dashboardPanels.addComponent(buildQueriesTimeChart(1));
 	        	dashboardPanels.addComponent(buildQueryTable(2));
@@ -120,6 +120,7 @@ public class DashView extends Panel {
 	        	dashboardPanels.addComponent(buildPieChart(0));
 	        	dashboardPanels.addComponent(buildQueryClassPieChart(1));
 	        	dashboardPanels.addComponent(buildQueriesTimeChart(2));
+	        	dashboardPanels.addComponent(buildQueryTable(3));
 	        }
 
 	        return dashboardPanels;

@@ -10,6 +10,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class DashboardDesign extends Dashboard {
 	
+	DashView usage;
 	DashView directions;
 	DashView news;
 	DashView weather;
@@ -18,6 +19,7 @@ public class DashboardDesign extends Dashboard {
 
 	public DashboardDesign () {
 		super();
+		usage = new DashView("Usage", "usage", "Queries");
 		directions = new DashView("Directions", "directions", "Direction Queries");
 		news = new DashView ("News", "news", "News Queries");
 		weather = new DashView ("Weather", "weather", "Weather Queries");
@@ -35,6 +37,9 @@ public class DashboardDesign extends Dashboard {
 		clickListeners();
 		
 		clear.addStyleName(ValoTheme.BUTTON_DANGER);
+		
+		scroll_panel.setContent(usage);
+		usageButton.setStyleName("menu-button selected");
 	}
 	
 	public void clickListeners () {
@@ -77,7 +82,7 @@ public class DashboardDesign extends Dashboard {
 				queryButton.setStyleName("menu-button");
 				databaseButton.setStyleName("menu-button");
 				
-				
+				scroll_panel.setContent(usage);
 		
 			}
 			

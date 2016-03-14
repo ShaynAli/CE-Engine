@@ -46,7 +46,7 @@ public class QueryClassPieChart extends VerticalLayout {
 
 		conf = chart.getConfiguration();
 
-		conf.setTitle("Queries by Format");
+		conf.setTitle("Queries by Class");
 
 		Tooltip tooltip = conf.getTooltip();
 		tooltip.setPointFormat("<b>{point.percentage:.1f}%</b>");
