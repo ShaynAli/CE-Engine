@@ -9,6 +9,7 @@ import com.design.charts.DistanceChart;
 import com.design.charts.QueriesTimeChart;
 import com.design.charts.QueryClassPieChart;
 import com.design.charts.TableWrapper;
+import com.design.charts.WeatherMaps;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -43,10 +44,14 @@ public class DashView extends Panel {
 	private String type;
 	private String queryTableTitle;
 	
+	private Component components [];
+	
 	public DashView (String title, String type, String quTitle) {
 		this.title = title;
 		this.type = type;
 		this.queryTableTitle = quTitle;
+		
+		components = new Component[4];
 		
 		root = new VerticalLayout();
 		ui();
@@ -91,72 +96,86 @@ public class DashView extends Panel {
 	        Responsive.makeResponsive(dashboardPanels);
 	        
 	        if (type.equals("directions")) {
-	        	dashboardPanels.addComponent(buildDirectionMap());
-	        	dashboardPanels.addComponent(buildQueriesTimeChart());
-	        	dashboardPanels.addComponent(buildDistanceChart());
-	        	dashboardPanels.addComponent(buildQueryTable());	        	
+	        	dashboardPanels.addComponent(buildDirectionMap(0));
+	        	dashboardPanels.addComponent(buildQueriesTimeChart(1));
+	        	dashboardPanels.addComponent(buildDistanceChart(2));
+	        	dashboardPanels.addComponent(buildQueryTable(3));	        	
 	        } else if (type.equals("news")) {
 	        	//dashboardPanels.addComponent(c); publisher
-	        	dashboardPanels.addComponent(buildConfidenceChart()); 
-	        	dashboardPanels.addComponent(buildQueriesTimeChart());
-	        	dashboardPanels.addComponent(buildQueryTable());
+	        	dashboardPanels.addComponent(buildConfidenceChart(0)); 
+	        	dashboardPanels.addComponent(buildQueriesTimeChart(1));
+	        	dashboardPanels.addComponent(buildQueryTable(2));
 	        } else if (type.equals("math")) {
-	        	dashboardPanels.addComponent(buildPieChart());
-	        	dashboardPanels.addComponent(buildConfidenceChart());
-	        	dashboardPanels.addComponent(buildQueriesTimeChart());
-	        	dashboardPanels.addComponent(buildQueryTable());
+	        	dashboardPanels.addComponent(buildPieChart(0));
+	        	dashboardPanels.addComponent(buildConfidenceChart(1));
+	        	dashboardPanels.addComponent(buildQueriesTimeChart(2));
+	        	dashboardPanels.addComponent(buildQueryTable(3));
 	        } else if (type.equals("weather")) {
-	        	//map
-	        	dashboardPanels.addComponent(buildConfidenceChart());
+	        	dashboardPanels.addComponent(buildWeatherMap(0));
+	        	dashboardPanels.addComponent(buildConfidenceChart(1));
 	        	//dashboardPanels.addComponent(build); temp ...time permitting
-	        	dashboardPanels.addComponent(buildQueriesTimeChart());
-	        	dashboardPanels.addComponent(buildQueryTable());
+	        	dashboardPanels.addComponent(buildQueriesTimeChart(2));
+	        	dashboardPanels.addComponent(buildQueryTable(3));
 	        } else if (type.equals("usage")){
-	        	dashboardPanels.addComponent(buildPieChart());
-	        	dashboardPanels.addComponent(buildQueryClassPieChart());
-	        	dashboardPanels.addComponent(buildQueriesTimeChart());
+	        	dashboardPanels.addComponent(buildPieChart(0));
+	        	dashboardPanels.addComponent(buildQueryClassPieChart(1));
+	        	dashboardPanels.addComponent(buildQueriesTimeChart(2));
 	        }
 
 	        return dashboardPanels;
 	 }
 	 
-	 private Component buildDirectionMap () {
+	 private Component buildDirectionMap (int i) {
 		 DirectionMaps map = new DirectionMaps();
+		 map.setSizeFull();
+		 components [i] = map;
+		 return createContentWrapper(map);
+	 }
+	 
+	 private Component buildWeatherMap (int i) {
+		 WeatherMaps map = new WeatherMaps();
+		 components [i] = map;
 		 map.setSizeFull();
 		 return createContentWrapper(map);
 	 }
 	 
-	 private Component buildDistanceChart () {
+	 private Component buildDistanceChart (int i) {
 		 DistanceChart chart = new DistanceChart();
 		 chart.setSizeFull();
+		 components[i] = chart;
 		 return createContentWrapper(chart);
 	 }
-	 private Component buildQueryClassPieChart () {
+	 private Component buildQueryClassPieChart (int i) {
 		 QueryClassPieChart chart = new QueryClassPieChart();
 		 chart.setSizeFull();
+		 components[i] = chart;
 		 return createContentWrapper(chart);
 	 }
-	 private Component buildPieChart() {
+	 private Component buildPieChart(int i) {
 	        DirectionsPieChart chart = new DirectionsPieChart(type);
 	        chart.setSizeFull();
+	        components[i] = chart;
 	        return createContentWrapper(chart);
 	 }
 	 
-	 private Component buildConfidenceChart () {
+	 private Component buildConfidenceChart (int i) {
 		 	confchart = new ConfidenceChart(type);
 		 	confchart.setSizeFull();
+		 	components [i] = confchart;
 		 	return createContentWrapper(confchart);
 	 }
 	 
-	 private Component buildQueriesTimeChart () {
+	 private Component buildQueriesTimeChart (int i) {
 		 timechart = new QueriesTimeChart(type);
 		 timechart.setSizeFull();
+		 components[i] = timechart;
 		 return createContentWrapper(timechart);
 	 }
 	 
-	 private Component buildQueryTable () {	
+	 private Component buildQueryTable (int i) {	
 		 	TableWrapper wrap = new TableWrapper(queryTableTitle, type);
 		 	tablewrapper = wrap;
+		 	components[i] = wrap;
 			Component wrapper =  createContentWrapper(wrap);
 			wrapper.addStyleName("top10-revenue");
 			return wrapper;
