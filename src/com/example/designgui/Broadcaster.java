@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import com.design.persistence.Directions;
 import com.design.persistence.News;
 import com.design.persistence.Queries;
+import com.design.persistence.Weather;
 
 public class Broadcaster implements Serializable {
 
@@ -18,6 +19,7 @@ public class Broadcaster implements Serializable {
 	        void receiveBroadcast(Queries qu);
 	        void receiveBroadcast(Directions dir);
 	        void receiveBroadcast(News news);
+	        void receiveBroadcast(Weather weather);
 	    }
 
 	    private static LinkedList<BroadcastListener> listeners = new LinkedList<BroadcastListener>();
@@ -68,6 +70,16 @@ public class Broadcaster implements Serializable {
 	                    listener.receiveBroadcast(news);
 	                }
 	            });
+	    }
+	    
+	    public static synchronized void broadcast (final Weather weather) {
+	    	for (final BroadcastListener listener: listeners)
+	    		executorService.execute(new Runnable () {
+	    			@Override
+	    			public void run () {
+	    				listener.receiveBroadcast(weather);
+	    			}
+	    		});
 	    }
 	
 }

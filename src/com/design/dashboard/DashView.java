@@ -106,7 +106,8 @@ public class DashView extends Panel {
 	        	dashboardPanels.addComponent(buildQueryTable());
 	        } else if (type.equals("weather")) {
 	        	//map
-	        	//dashboardPanels.addComponent(build); temp
+	        	dashboardPanels.addComponent(buildConfidenceChart());
+	        	//dashboardPanels.addComponent(build); temp ...time permitting
 	        	dashboardPanels.addComponent(buildQueriesTimeChart());
 	        	dashboardPanels.addComponent(buildQueryTable());
 	        }

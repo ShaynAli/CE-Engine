@@ -32,7 +32,7 @@ public class SMSServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static String from;
+	public String from;
 	
 	public Users user;
 	
@@ -47,7 +47,6 @@ public class SMSServlet extends HttpServlet {
             //System.out.println("Query: " + request.getParameter("Body"));
     		
     		from = request.getParameter("From");
-    		from = "+12896683263";
     		user = ProcessUser.userExists(from);
     		
     		

@@ -12,11 +12,11 @@ import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import com.design.data.Weather;
 import com.design.persistence.Directions;
 import com.design.persistence.News;
 import com.design.persistence.Queries;
 import com.design.persistence.Users;
+import com.design.persistence.Weather;
 import com.example.designgui.Broadcaster;
 import net.sf.sprockets.google.Place;
 import net.sf.sprockets.google.Places;
@@ -51,21 +51,45 @@ public class ProcessUser {
 	}
 	
 	public static void persistWeather (Queries query, String output) {
+		Weather weather = new Weather();
+		
+		
 		if (query.getSuccessful()) {
 			if (query.getType().equals("sms")) {
 				System.out.println("sending");
-				Communicate.sendText(output);
+				Communicate.sendText(output, query.getPhone().getPhone());
 				System.out.println("sent");
+				
+				String key = "&key=AIzaSyAjXKpbYwL4CFbXVtNbLKKE9cOrlrsI05Q";
+				String qu = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+				
+				try {
+					String quer = qu + query.getQuery().toLowerCase().replace("weather", "").replace(" in ", "").replace(" ", "+");
+					URL url = new URL(quer);
+					JsonReader json = Json.createReader(url.openStream());
+					JsonObject obj = json.readObject().getJsonArray("results").getJsonObject(0).getJsonObject("geometry").getJsonObject("location");
+					weather.setLatitude(obj.getJsonNumber("lat").doubleValue());
+					weather.setLongitude(obj.getJsonNumber("lng").doubleValue());
+				} catch (Exception ex) {
+					
+				}
 			}
 		} else {
 			if (query.getType().equals("sms")) {
-				Communicate.sendText("Unable to process your weather query.");
+				Communicate.sendText("Unable to process your weather query.", query.getPhone().getPhone());
 			}
 		}
 		
 		query.setId(persistQuery(query));
 		
-		Broadcaster.broadcast(query);
+		weather.setId(query.getId());
+		weather.setQueries(query);
+
+		Broadcaster.broadcast(weather);
+		
+		em.getTransaction().begin();
+		em.persist(weather);
+		em.getTransaction().commit();
 	}
 	
 	public static void persistDirection (String [] data, Queries query, int distance, int time) {
@@ -79,9 +103,9 @@ public class ProcessUser {
 	
 	public static void persistDirection (String [] data, Queries query, int distance, int time, String directions) {
 		if (directions == null) {
-			Communicate.sendText("Unable to parse your directions query.");
+			Communicate.sendText("Unable to parse your directions query.", query.getPhone().getPhone());
 		} else {
-			Communicate.sendText(directions);
+			Communicate.sendText(directions, query.getPhone().getPhone());
 		}
 		
 		Directions dirc = new Directions();
@@ -96,7 +120,7 @@ public class ProcessUser {
 		
 		if (dirc.getOrigin() != null) {
 			try {
-				String quer = qu + dirc.getOrigin().replace(" ", "+");
+				String quer = qu + dirc.getOrigin().replace(" ", "+") + key;
 				URL url = new URL(quer);
 				JsonReader json = Json.createReader(url.openStream());
 				JsonObject obj = json.readObject().getJsonArray("results").getJsonObject(0).getJsonObject("geometry").getJsonObject("location");
@@ -109,7 +133,7 @@ public class ProcessUser {
 		
 		if (dirc.getDestination() != null) {
 			try {
-				String quer = qu + dirc.getDestination().replace(" ", "+");
+				String quer = qu + dirc.getDestination().replace(" ", "+") + key;
 				URL url = new URL(quer);
 				JsonReader json = Json.createReader(url.openStream());
 				JsonObject obj = json.readObject().getJsonArray("results").getJsonObject(0).getJsonObject("geometry").getJsonObject("location");
@@ -136,9 +160,9 @@ public class ProcessUser {
 	public static void persistNews (Queries query, String publisher, String message) {
 		if (query.getType().equals("sms")) {
 			if (message == null) {
-				Communicate.sendText("Unable to parse your news query.");
+				Communicate.sendText("Unable to parse your news query.", query.getPhone().getPhone());
 			} else {
-				Communicate.sendText(message);
+				Communicate.sendText(message, query.getPhone().getPhone());
 			}
 		} else {
 			
@@ -162,13 +186,13 @@ public class ProcessUser {
 	}
 	
 	public static void persistWolfram (Queries query) {
-		Communicate.sendText("Unable to process your query. Please try rephrasing.");
+		Communicate.sendText("Unable to process your query. Please try rephrasing.", query.getPhone().getPhone());
 		persistQuery(query);
 	}
 	
 	public static void persistWolfram (Queries query, String result) {
 		if (query.getType().equals("sms")) {
-			Communicate.sendText(result);
+			Communicate.sendText(result, query.getPhone().getPhone());
 		}
 		
 		query.setId(persistQuery(query));
