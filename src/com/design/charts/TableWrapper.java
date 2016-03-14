@@ -40,6 +40,8 @@ public class TableWrapper extends VerticalLayout {
 			table = buildWeatherTable();
 		} else if (type.equals("math")) {
 			table = buildWolframTable();
+		} else if (type.equals("usage")) {
+			table = buildUsageTable();
 		} else {
 			table = new Table();
 		}
@@ -73,8 +75,28 @@ public class TableWrapper extends VerticalLayout {
 		List <Queries> queries = em.createQuery(qu).getResultList();
 		
 		for (int i =0; i <queries.size(); i++){
+			CheckBox box = new CheckBox();
+			box.setValue(queries.get(i).getSuccessful());
 			
+			Object [] obj = {i + 1, queries.get(i).getQuery(), queries.get(i).getClass(),
+					box, queries.get(i).getType()};
+			
+			table.addItem(obj, queries.get(i).getId());
 		}
+		
+		table.setImmediate(true);
+		table.setVisibleColumns("#", "query", "success", "class");
+		table.setColumnAlignments(Align.CENTER, Align.CENTER, Align.CENTER, Align.CENTER);
+		
+		table.setColumnHeaders("#", "Query", "Successful", "Class", "Type");
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+		
+        table.addStyleName(ValoTheme.TABLE_NO_STRIPES);
+        table.addStyleName(ValoTheme.TABLE_SMALL);  
+        table.setHeight("95%");
+        table.setWidth("97%");
+        
+        return table;
 
 	}
 	
