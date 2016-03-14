@@ -30,7 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Directions.findByOrigin", query = "SELECT d FROM Directions d WHERE d.origin = :origin"),
     @NamedQuery(name = "Directions.findByDestination", query = "SELECT d FROM Directions d WHERE d.destination = :destination"),
     @NamedQuery(name = "Directions.findByDistance", query = "SELECT d FROM Directions d WHERE d.distance = :distance"),
-    @NamedQuery(name = "Directions.findByTime", query = "SELECT d FROM Directions d WHERE d.time = :time")})
+    @NamedQuery(name = "Directions.findByTime", query = "SELECT d FROM Directions d WHERE d.time = :time"),
+    @NamedQuery(name = "Directions.findByOrigLat", query = "SELECT d FROM Directions d WHERE d.origLat = :origLat"),
+    @NamedQuery(name = "Directions.findByOrigLon", query = "SELECT d FROM Directions d WHERE d.origLon = :origLon"),
+    @NamedQuery(name = "Directions.findByDestLat", query = "SELECT d FROM Directions d WHERE d.destLat = :destLat"),
+    @NamedQuery(name = "Directions.findByDestLon", query = "SELECT d FROM Directions d WHERE d.destLon = :destLon")})
 public class Directions implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,6 +50,14 @@ public class Directions implements Serializable {
     private Double distance;
     @Column(name = "time")
     private Double time;
+    @Column(name = "origLat")
+    private Double origLat;
+    @Column(name = "origLon")
+    private Double origLon;
+    @Column(name = "destLat")
+    private Double destLat;
+    @Column(name = "destLon")
+    private Double destLon;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Queries queries;
@@ -95,6 +107,38 @@ public class Directions implements Serializable {
 
     public void setTime(Double time) {
         this.time = time;
+    }
+
+    public Double getOrigLat() {
+        return origLat;
+    }
+
+    public void setOrigLat(Double origLat) {
+        this.origLat = origLat;
+    }
+
+    public Double getOrigLon() {
+        return origLon;
+    }
+
+    public void setOrigLon(Double origLon) {
+        this.origLon = origLon;
+    }
+
+    public Double getDestLat() {
+        return destLat;
+    }
+
+    public void setDestLat(Double destLat) {
+        this.destLat = destLat;
+    }
+
+    public Double getDestLon() {
+        return destLon;
+    }
+
+    public void setDestLon(Double destLon) {
+        this.destLon = destLon;
     }
 
     public Queries getQueries() {

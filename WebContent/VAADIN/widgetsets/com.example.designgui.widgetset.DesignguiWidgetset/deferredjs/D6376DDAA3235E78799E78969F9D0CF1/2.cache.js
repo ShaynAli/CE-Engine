@@ -1,1 +1,0 @@
-$wnd.com_example_designgui_widgetset_DesignguiWidgetset.runAsyncCallback2('wfb(1637,1,E6d);_.vc=function Jnc(){M7b((!F7b&&(F7b=new S7b),F7b),this.a.d)};y_d(Zh)(2);\n//# sourceURL=com.example.designgui.widgetset.DesignguiWidgetset-2.js\n')

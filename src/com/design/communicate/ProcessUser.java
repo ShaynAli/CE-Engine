@@ -6,6 +6,9 @@ package com.design.communicate;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
@@ -14,6 +17,11 @@ import com.design.persistence.Directions;
 import com.design.persistence.News;
 import com.design.persistence.Queries;
 import com.design.persistence.Users;
+import com.example.designgui.Broadcaster;
+import net.sf.sprockets.google.Place;
+import net.sf.sprockets.google.Places;
+import net.sf.sprockets.google.Places.Params;
+import java.net.URL;
 
 public class ProcessUser {
 	
@@ -55,7 +63,9 @@ public class ProcessUser {
 			}
 		}
 		
-		persistQuery(query);
+		query.setId(persistQuery(query));
+		
+		Broadcaster.broadcast(query);
 	}
 	
 	public static void persistDirection (String [] data, Queries query, int distance, int time) {
@@ -81,9 +91,40 @@ public class ProcessUser {
 		dirc.setTime((double) time);
 		dirc.setDistance((double) distance);
 		
+		String key = "&key=AIzaSyAjXKpbYwL4CFbXVtNbLKKE9cOrlrsI05Q";
+		String qu = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+		
+		if (dirc.getOrigin() != null) {
+			try {
+				String quer = qu + dirc.getOrigin().replace(" ", "+");
+				URL url = new URL(quer);
+				JsonReader json = Json.createReader(url.openStream());
+				JsonObject obj = json.readObject().getJsonArray("results").getJsonObject(0).getJsonObject("geometry").getJsonObject("location");
+				dirc.setOrigLat(obj.getJsonNumber("lat").doubleValue());
+				dirc.setOrigLon(obj.getJsonNumber("lng").doubleValue());
+			} catch (Exception ex) {
+				
+			}
+		}
+		
+		if (dirc.getDestination() != null) {
+			try {
+				String quer = qu + dirc.getDestination().replace(" ", "+");
+				URL url = new URL(quer);
+				JsonReader json = Json.createReader(url.openStream());
+				JsonObject obj = json.readObject().getJsonArray("results").getJsonObject(0).getJsonObject("geometry").getJsonObject("location");
+				dirc.setDestLat(obj.getJsonNumber("lat").doubleValue());
+				dirc.setDestLon(obj.getJsonNumber("lng").doubleValue());
+			} catch (Exception ex) {
+				
+			}
+		}
+			
 		int id = persistQuery(query);
 		dirc.setId(id);
 		dirc.getQueries().setId(id);
+		
+		Broadcaster.broadcast(dirc);
 		
 		em.getTransaction().begin();
 		em.persist(dirc);
@@ -111,6 +152,8 @@ public class ProcessUser {
 		news.setId(id);
 		news.getQueries().setId(id);
 		
+		Broadcaster.broadcast(news);
+		
 		
 		
 		em.getTransaction().begin();
@@ -128,7 +171,9 @@ public class ProcessUser {
 			Communicate.sendText(result);
 		}
 		
-		persistQuery(query);
+		query.setId(persistQuery(query));
+		
+		Broadcaster.broadcast(query);
 	}
 	
 	public static int persistQuery (Queries query) {

@@ -1,6 +1,5 @@
 package com.design.dashboard;
 
-import com.design.directions.DashView;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;

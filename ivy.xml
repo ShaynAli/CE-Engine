@@ -72,6 +72,7 @@
    <dependency org="mysql" name="mysql-connector-java" rev="5.1.38"/>
    <dependency org="com.twilio.sdk" name="twilio-java-sdk" rev="6.3.0"/>
    <dependency org="org.json" name="json" rev="20160212"/>
+   <dependency org="com.vaadin.tapio" name="googlemaps" rev="1.1.2" />
 
    
    
