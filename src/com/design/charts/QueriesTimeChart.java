@@ -69,7 +69,14 @@ public class QueriesTimeChart extends VerticalLayout {
 	}
 	
 	public void loadData(String type) {
-		String query = "SELECT x FROM Queries AS x where x.class1='" + type + "'";
+		String query=" ";
+		if (type.equals("usage")){
+			query = "SELECT x FROM Queries AS x";
+		}
+		else {
+			query = "SELECT x FROM Queries AS x where x.class1='" + type + "'";
+		}
+		
 		List <Queries> qu = em.createQuery(query).getResultList();
 		List <Queries> smsList = qu.stream().filter(p -> p.getType().equals("sms")).collect(Collectors.toList());
 		List <Queries> voiceList = qu.stream().filter(p -> p.getType().equals("voice")).collect(Collectors.toList());

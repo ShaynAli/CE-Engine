@@ -7,6 +7,7 @@ import com.design.charts.DirectionMaps;
 import com.design.charts.DirectionsPieChart;
 import com.design.charts.DistanceChart;
 import com.design.charts.QueriesTimeChart;
+import com.design.charts.QueryClassPieChart;
 import com.design.charts.TableWrapper;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -110,6 +111,10 @@ public class DashView extends Panel {
 	        	//dashboardPanels.addComponent(build); temp ...time permitting
 	        	dashboardPanels.addComponent(buildQueriesTimeChart());
 	        	dashboardPanels.addComponent(buildQueryTable());
+	        } else if (type.equals("usage")){
+	        	dashboardPanels.addComponent(buildPieChart());
+	        	dashboardPanels.addComponent(buildQueryClassPieChart());
+	        	dashboardPanels.addComponent(buildQueriesTimeChart());
 	        }
 
 	        return dashboardPanels;
@@ -126,7 +131,11 @@ public class DashView extends Panel {
 		 chart.setSizeFull();
 		 return createContentWrapper(chart);
 	 }
-	 
+	 private Component buildQueryClassPieChart () {
+		 QueryClassPieChart chart = new QueryClassPieChart();
+		 chart.setSizeFull();
+		 return createContentWrapper(chart);
+	 }
 	 private Component buildPieChart() {
 	        DirectionsPieChart chart = new DirectionsPieChart(type);
 	        chart.setSizeFull();

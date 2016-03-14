@@ -61,6 +61,23 @@ public class TableWrapper extends VerticalLayout {
 		this.setSizeFull();
 	}
 	
+	public Table buildUsageTable (){
+		Table table = new Table ();
+		table.addContainerProperty("#", Integer.class, 1);
+		table.addContainerProperty("query", String.class, null);
+		table.addContainerProperty("class", String.class, null);
+		table.addContainerProperty("success", CheckBox.class, new CheckBox("", true));
+		table.addContainerProperty("type", String.class, null);
+		
+		String qu = "SELECT x FROM Queries AS x";
+		List <Queries> queries = em.createQuery(qu).getResultList();
+		
+		for (int i =0; i <queries.size(); i++){
+			
+		}
+
+	}
+	
 	public Table buildDirectionsTable () {
 		Table table = new Table();
 		table.addContainerProperty("#", Integer.class, 1);

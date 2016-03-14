@@ -78,7 +78,13 @@ public class DirectionsPieChart extends VerticalLayout{
 	
 	public void loadData (String type) {
 		
-		String query = "SELECT x from Queries AS x where x.class1='" + type + "'";
+		String query;
+		
+		if (type.equals("usage")){
+			query = "SELECT x from Queries AS x";
+		} else{
+			query = "SELECT x from Queries AS x where x.class1='" + type + "'";
+		}
 		
 		List <Queries> queries = em.createQuery(query).getResultList();
 		List <Queries> smsList = queries.stream().filter(p -> p.getType().equals("sms")).collect(Collectors.toList());
