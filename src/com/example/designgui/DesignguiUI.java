@@ -8,6 +8,7 @@ import com.design.dashboard.DashboardDesign;
 import com.design.persistence.Directions;
 import com.design.persistence.News;
 import com.design.persistence.Queries;
+import com.design.persistence.Weather;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -88,6 +89,16 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 		});
 		
 		System.out.println("received news");
+	}
+
+	@Override
+	public void receiveBroadcast(Weather weather) {
+		this.access(new Runnable () {
+			@Override
+			public void run () {
+				
+			}
+		});
 	}
 
 }

@@ -1,8 +1,11 @@
 package com.design.charts;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
+import com.design.persistence.Weather;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.LatLon;
 import com.vaadin.ui.Alignment;
@@ -32,6 +35,15 @@ public class WeatherMaps extends VerticalLayout {
 	}
 	
 	private void loadData () {
+		String qu = "SELECT x FROM Weather AS x";
+		
+		List <Weather> weather = em.createQuery(qu).getResultList();
+		
+		for (int i = 0; i < weather.size(); i++) {
+			if (weather.get(i).getLatitude() != null) {
+				map.addMarker(null, new LatLon(weather.get(i).getLatitude(), weather.get(i).getLongitude()), false, null);
+			}
+		}
 		
 	}
 	
