@@ -117,7 +117,7 @@ public class Wolfram
 				{
 					StringBuilder title = new StringBuilder(pods[podI].getTitle());
 					title.replace(0, 1, "" + Character.toUpperCase(title.charAt(0)));
-					result.append(pods[podI].getTitle());
+					result.append(title);
 					result.append(": \n");
 					WASubpod[] subpods = pods[podI].getSubpods();
 					for (WASubpod subpod : subpods)
