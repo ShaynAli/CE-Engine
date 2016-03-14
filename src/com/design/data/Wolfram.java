@@ -19,12 +19,14 @@ import com.wolfram.alpha.WAQueryResult;
 import com.wolfram.alpha.WASubpod;
 
 // This was originally an interface, it may be better as a class or it may not be
-public class Wolfram
-{
-//	static int INPUT_POD_ID = 
+public class Wolfram {
+	// static int INPUT_POD_ID =
 	static int NO_PODS_TO_INCL = 3;
-	static String[] alwaysInclIDs = {"Result"}; // POD IDs to always include, if they exist for a query
-	static String[] alwaysExclIDs = {"RootPlot"}; // POD IDs to always exclude, if they exist for a query
+	static String[] alwaysInclIDs = { "Result" }; // POD IDs to always include,
+													// if they exist for a query
+	static String[] alwaysExclIDs = { "RootPlot" }; // POD IDs to always
+													// exclude, if they exist
+													// for a query
 
 	public static boolean wolframAlpha(Queries qu)
 	{
@@ -102,41 +104,47 @@ public class Wolfram
 			WAPod[] pods = queryResult.getPods();
 			
 			// Result generation
-			
-			// Include pods which must always be included first (if they exist)
-			// WIP
-			// First few pods included
-			int podI = 0;
-			if (pods[podI].getID().equals("Input")) // Exclude 'Input interpretation' pod
+			if (pods.length > 1)
 			{
-				podI++;
-			}
-			for (/* int podI = 0 */ ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
-			{
-				if (!pods[podI].isError())
+				// Include pods which must always be included first (if they exist)
+				// WIP
+				// First few pods included
+				int podI = 0;
+				if (pods[podI].getID().equals("Input")) // Exclude 'Input interpretation' pod
 				{
-					StringBuilder title = new StringBuilder(pods[podI].getTitle());
-					title.replace(0, 1, "" + Character.toUpperCase(title.charAt(0)));
-					result.append(title);
-					result.append(": \n");
-					WASubpod[] subpods = pods[podI].getSubpods();
-					for (WASubpod subpod : subpods)
+					podI++;
+				}
+				for (/* int podI = 0 */ ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
+				{
+					if (!pods[podI].isError())
 					{
-						// Iterate through elements of the subpod and include plaintext elements
-						for (Object element : subpod.getContents())
+						StringBuilder title = new StringBuilder(pods[podI].getTitle());
+						title.replace(0, 1, "" + Character.toUpperCase(title.charAt(0)));
+						result.append(title);
+						result.append(": \n");
+						WASubpod[] subpods = pods[podI].getSubpods();
+						for (WASubpod subpod : subpods)
 						{
-							if (element instanceof WAPlainText)
+							// Iterate through elements of the subpod and include plaintext elements
+							for (Object element : subpod.getContents())
 							{
-								result.append(((WAPlainText) element).getText());
+								if (element instanceof WAPlainText)
+								{
+									result.append(((WAPlainText) element).getText());
+								}
 							}
+							result.append('\n');
 						}
-						result.append('\n');
+					}
+					else
+					{
+					podI--;
 					}
 				}
-				else
-				{
-					podI--;
-				}
+			}
+			else
+			{
+				result.append("The answer could not be returned in text form.");
 			}
 			
 			// Include pods which must always be included at the end (if they exist)
@@ -154,47 +162,50 @@ public class Wolfram
 		return true;
     	 
 	} // wolframAlpha method
-		
+
 } // Wolfram class
-    	 
-    	// Dane's old code (in 'Response generation' else block
-//			outerloop:
+
+// Dane's old code (in 'Response generation' else block
+// outerloop:
 //
-//				for (WAPod pod : queryResult.getPods()) {
+// for (WAPod pod : queryResult.getPods()) {
 //
-//					if (!pod.isError()) {
+// if (!pod.isError()) {
 //
-// 				 for (WASubpod subpod : pod.getSubpods()) {
-// 					 for (Object element : subpod.getContents()) {
-// 						 if (element instanceof WAPlainText) {
-// 							  
-// 							 if (body.toLowerCase().contains("derivative") || body.toLowerCase().contains("deriv")) {
-// 								 if (((WAPlainText) element).getText().contains("d/dx")) {
-// 									 result +=  ((WAPlainText) element).getText();
-// 									 if (body.toLowerCase().contains("integral") || body.toLowerCase().contains("integrate") ||
-// 											 body.toLowerCase().contains("derivative")) {
-// 										 break outerloop;
-// 									 }
-// 									 
-// 								 }
-// 							 } else {
-// 								 if (!((WAPlainText) element).getText().contains("Plot")) {
-//     								 System.out.println(((WAPlainText) element).getText());  
-//     								 result += ((WAPlainText) element).getText();
-//     								 if (body.toLowerCase().contains("integral") || body.toLowerCase().contains("integrate") ||
-// 											 body.toLowerCase().contains("derivative")) {
-// 										 break outerloop;
-// 									 }
-//     							 }
-// 							 }
-// 						 }
-// 					 }
-// 				 }
-// 			 }
-// 		 }
- 	 
-//Dane's old code (right before 'Communicate.sendtext(result);' line
-// 	 result = result.replace("+", " + ");
-// 	 result = result.replace("-", " - ");
-// 	 result = result.replace("constant", "C");
-// 	 result = result.replace("=", "\n=");
+// for (WASubpod subpod : pod.getSubpods()) {
+// for (Object element : subpod.getContents()) {
+// if (element instanceof WAPlainText) {
+//
+// if (body.toLowerCase().contains("derivative") ||
+// body.toLowerCase().contains("deriv")) {
+// if (((WAPlainText) element).getText().contains("d/dx")) {
+// result += ((WAPlainText) element).getText();
+// if (body.toLowerCase().contains("integral") ||
+// body.toLowerCase().contains("integrate") ||
+// body.toLowerCase().contains("derivative")) {
+// break outerloop;
+// }
+//
+// }
+// } else {
+// if (!((WAPlainText) element).getText().contains("Plot")) {
+// System.out.println(((WAPlainText) element).getText());
+// result += ((WAPlainText) element).getText();
+// if (body.toLowerCase().contains("integral") ||
+// body.toLowerCase().contains("integrate") ||
+// body.toLowerCase().contains("derivative")) {
+// break outerloop;
+// }
+// }
+// }
+// }
+// }
+// }
+// }
+// }
+
+// Dane's old code (right before 'Communicate.sendtext(result);' line
+// result = result.replace("+", " + ");
+// result = result.replace("-", " - ");
+// result = result.replace("constant", "C");
+// result = result.replace("=", "\n=");
