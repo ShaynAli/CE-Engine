@@ -31,6 +31,9 @@ public class Wolfram {
 	public static boolean wolframAlpha(Queries qu)
 	{
     	String queryStr = qu.getQuery();
+    	
+    	boolean illuminatiConfirmed = (search("george bush", queryStr) > 0);
+    	
 		StringBuilder result = new StringBuilder(".\n");
     	
     	// Basic engine setup
@@ -141,6 +144,10 @@ public class Wolfram {
 					podI--;
 					}
 				}
+				if (illuminatiConfirmed)
+				{
+					result.append("Jet fuel can't melt steel beams\n");
+				}
 			}
 			else
 			{
@@ -162,6 +169,28 @@ public class Wolfram {
 		return true;
     	 
 	} // wolframAlpha method
+	
+	static int search(String search, String str)
+	{
+		int foundI = -1;
+		int maxI = str.length() - search.length();
+		for (int i = 0; i < maxI; i++)
+		{
+			if (str.charAt(i) == search.charAt(0))
+			{
+				foundI = i;
+				for (int j = 0; j < search.length(); j++)
+				{
+					if(str.charAt(i + j) != search.charAt(j))
+					{
+						foundI = -1;
+						break;
+					}
+				}
+			}
+		}
+		return foundI;
+	}
 
 } // Wolfram class
 
