@@ -88,15 +88,27 @@ public class DashView extends Panel {
 	        dashboardPanels = new CssLayout();
 	        dashboardPanels.addStyleName("dashboard-panels");
 	        Responsive.makeResponsive(dashboardPanels);
-
-	        dashboardPanels.addComponent(buildPieChart());
-	        dashboardPanels.addComponent(buildConfidenceChart());
-	        dashboardPanels.addComponent(buildQueriesTimeChart());
-	        dashboardPanels.addComponent(buildQueryTable());
 	        
 	        if (type.equals("directions")) {
-	        	dashboardPanels.addComponent(buildDistanceChart());
 	        	dashboardPanels.addComponent(buildDirectionMap());
+	        	dashboardPanels.addComponent(buildQueriesTimeChart());
+	        	dashboardPanels.addComponent(buildDistanceChart());
+	        	dashboardPanels.addComponent(buildQueryTable());	        	
+	        } else if (type.equals("news")) {
+	        	//dashboardPanels.addComponent(c); publisher
+	        	dashboardPanels.addComponent(buildConfidenceChart()); 
+	        	dashboardPanels.addComponent(buildQueriesTimeChart());
+	        	dashboardPanels.addComponent(buildQueryTable());
+	        } else if (type.equals("math")) {
+	        	dashboardPanels.addComponent(buildPieChart());
+	        	dashboardPanels.addComponent(buildConfidenceChart());
+	        	dashboardPanels.addComponent(buildQueriesTimeChart());
+	        	dashboardPanels.addComponent(buildQueryTable());
+	        } else if (type.equals("weather")) {
+	        	//map
+	        	//dashboardPanels.addComponent(build); temp
+	        	dashboardPanels.addComponent(buildQueriesTimeChart());
+	        	dashboardPanels.addComponent(buildQueryTable());
 	        }
 
 	        return dashboardPanels;

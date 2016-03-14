@@ -14,6 +14,7 @@ public class DashboardDesign extends Dashboard {
 	DashView news;
 	DashView weather;
 	DashView math;
+	ConsoleView console;
 
 	public DashboardDesign () {
 		super();
@@ -21,6 +22,7 @@ public class DashboardDesign extends Dashboard {
 		news = new DashView ("News", "news", "News Queries");
 		weather = new DashView ("Weather", "weather", "Weather Queries");
 		math = new DashView ("Wolfram Alpha", "math", "Wolfram Alpha Queries");
+		console = new ConsoleView();
 		
 		select.removeAllItems();
 		
@@ -164,9 +166,14 @@ public class DashboardDesign extends Dashboard {
 				queryButton.setStyleName("menu-button selected");
 				databaseButton.setStyleName("menu-button");
 				
+				scroll_panel.setContent(console);
+				
 			}
 			
 		});
+		
+		queryButton.setIcon(FontAwesome.TERMINAL);
+		queryButton.setCaption("Console");
 		
 		databaseButton.addClickListener(new ClickListener(){
 
