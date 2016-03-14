@@ -7,7 +7,6 @@
  */
 package com.design.data;
 
-import com.design.communicate.Communicate;
 import com.design.communicate.ProcessUser;
 import com.design.persistence.Queries;
 import com.design.servlets.SMSServlet;
@@ -24,7 +23,8 @@ public class Wolfram
 {
 //	static int INPUT_POD_ID = 
 	static int NO_PODS_TO_INCL = 3;
-//	static int alwaysInclIDs = {}; // POD IDs to always include, if they exist for a query
+	static String[] alwaysInclIDs = {"Result"}; // POD IDs to always include, if they exist for a query
+	static String[] alwaysExclIDs = {"RootPlot"}; // POD IDs to always exclude, if they exist for a query
 
 	public static boolean wolframAlpha(Queries qu)
 	{
@@ -39,6 +39,18 @@ public class Wolfram
     	WAQuery query = engine.createQuery();
     	query.setInput(queryStr);
     	// query.addIncludePodID(arg0);
+    	
+    	// Deal with always include and exclude queries
+    	// Always include
+    	for (String ID:alwaysInclIDs)
+    	{
+    		query.addIncludePodID(ID);
+    	}
+    	// Always exclude
+    	for (String ID:alwaysExclIDs)
+    	{
+    		query.addExcludePodID(ID);
+    	}
     	
     	// Query retrieval and error handling
     	WAQueryResult queryResult = null;
@@ -103,6 +115,8 @@ public class Wolfram
 			{
 				if (!pods[podI].isError())
 				{
+					StringBuilder title = new StringBuilder(pods[podI].getTitle());
+					title.replace(0, 1, "" + Character.toUpperCase(title.charAt(0)));
 					result.append(pods[podI].getTitle());
 					result.append(": \n");
 					WASubpod[] subpods = pods[podI].getSubpods();
