@@ -13,6 +13,9 @@ import com.twilio.sdk.verbs.TwiMLResponse;
 @WebServlet("/echo")
 public class TwilioServlet extends HttpServlet
 {
+	// Recording time in seconds
+	static int REC_DURATION = 30;
+	
 	public void service(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException
 	{
 		TwiMLResponse response = new TwiMLResponse();
@@ -20,7 +23,7 @@ public class TwilioServlet extends HttpServlet
 //		String callerNumber = httpRequest.getParameter("From");
 		
 		Record rec = new Record();
-		rec.setMaxLength(30);
+		rec.setMaxLength(REC_DURATION);
 		
 		rec.setAction("/voice-servlet");
 		// Send a response
