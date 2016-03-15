@@ -97,7 +97,7 @@ public class Wolfram
 				// Include pods which must always be included first (if they exist)
 				// WIP
 				
-				
+			
 				System.out.println("Wolfram Module iterating through pods");
 				// First few pods included
 				for (int podI = 0 ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
@@ -107,7 +107,7 @@ public class Wolfram
 					{
 						result.append(pods[podI].getTitle());
 						result.append(": \n");
-						int resLength = result.length();
+//						int resLength = result.length();
 						WASubpod[] subpods = pods[podI].getSubpods();
 						for (WASubpod subpod : subpods)
 						{
@@ -117,7 +117,7 @@ public class Wolfram
 								if (element instanceof WAPlainText)
 								{
 									StringBuilder eText = new StringBuilder(((WAPlainText) element).getText());
-									if(eText.length()>0)
+//									if(eText.length()>0)
 									{
 //										eText.replace(0, 1, "" + Character.toUpperCase(eText.charAt(0))); // Capitalization WIP
 //										for(int i = 0; i < eText.length(); i++)
@@ -126,35 +126,29 @@ public class Wolfram
 //											{
 //												eText.replace(i+1, i+2, "" + Character.toUpperCase(eText.charAt(i)));
 //											}
-										}
+									}
+									if(eText.length()>0)
+									{
 										result.append(eText);
 									}
-//										result.append(((WAPlainText) element).getText()); // To 
 								}
+//									result.append(((WAPlainText) element).getText()); // To 
 							}
-							result.append('\n');
 						}
-						// If there are no actual WAPlainText elements remove the pod titles
-//						if (result.length() - 1 == resLength)
-//						{
-//							result.delete(result.length() - (pods[podI].getTitle().length() + 3 + subpods.length), result.length());
-//						}
-//						else
-//						{
-							result.append('\n');
-//						}
+						result.append('\n');
 					}
 					else
 					{
 						podI--;
 					}
 				}
+			}
 				
 				// Include pods which must always be included at the end (if they exist)
 				// WIP
-			}
 			
 			// No meaningful output
+			
 			if (result.length()<=0)
 			{
 				result.append("Your query was understood, but no meaningful text response could be generated");
