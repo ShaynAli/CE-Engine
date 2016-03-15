@@ -118,7 +118,7 @@ public class Wolfram {
 								str.trim();
 								if (str.length()>0)
 								{
-									result.append();
+									result.append(str);
 								}
 							}
 						}
