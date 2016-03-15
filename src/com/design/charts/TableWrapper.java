@@ -309,5 +309,10 @@ public class TableWrapper extends VerticalLayout {
 		table.addItem(new Object [] {table.size() + 1,  weather.getQueries().getQuery(), box}, weather.getId());
 		table.sort(new Object [] {"#"}, new boolean [] {false});
 	}
+
+	public void clear() {
+		table.removeAllItems();
+		
+	}
 	
 }

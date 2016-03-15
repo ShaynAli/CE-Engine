@@ -108,5 +108,38 @@ public class DistanceChart extends VerticalLayout {
 			
 		}
 	}
+
+	public void clear() {
+		this.removeComponent(chart);
+		sms = new DataSeries();
+		voice = new DataSeries();
+		
+		chart = new Chart(ChartType.SCATTER);
+		conf = chart.getConfiguration();
+		conf.setTitle("Distance Travelled");
+		
+		YAxis y = conf.getyAxis();
+		y.setTitle("Distance Travelled (km)");
+		y.getTitle().setAlign(VerticalAlign.MIDDLE);
+		
+		XAxis x = conf.getxAxis();
+		x.setTitle("Query #");
+		x.getTitle().setAlign(VerticalAlign.MIDDLE);
+		
+		PlotOptionsScatter options = new PlotOptionsScatter();
+		conf.setPlotOptions(options);
+		conf.addSeries(sms);
+		conf.addSeries(voice);
+		
+		conf.getLegend().setEnabled(false);
+		
+
+		sms.setName("SMS");
+		voice.setName("Voice");
+		
+		chart.setSizeFull();
+		this.addComponent(chart);
+		
+	}
 	
 }

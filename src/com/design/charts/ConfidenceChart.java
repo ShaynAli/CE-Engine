@@ -130,5 +130,40 @@ public class ConfidenceChart extends VerticalLayout {
 		}
 		
 	}
+
+	public void clear() {
+		this.removeComponent(chart);
+		chart = new Chart(ChartType.SCATTER);
+		conf = chart.getConfiguration();
+		conf.setTitle("Query Confidence");
+		sms = new DataSeries();
+		voice = new DataSeries();
+		
+		YAxis yAxis = conf.getyAxis();
+		yAxis.setTitle(new AxisTitle("Confidence (%)"));
+		yAxis.getTitle().setAlign(VerticalAlign.MIDDLE);
+		yAxis.setMax(100);
+		
+		
+		XAxis x = conf.getxAxis();
+		x.setTitle(new AxisTitle("Query #"));
+		x.getTitle().setAlign(VerticalAlign.MIDDLE);
+		
+		
+		PlotOptionsScatter options = new PlotOptionsScatter();
+		conf.setPlotOptions(options);
+		conf.addSeries(sms);
+		conf.addSeries(voice);
+		
+		conf.getLegend().setEnabled(false);
+		
+
+		sms.setName("SMS");
+		voice.setName("Voice");
+		
+		
+		chart.setSizeFull();
+		this.addComponent(chart);
+	}
 	
 }

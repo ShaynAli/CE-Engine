@@ -205,6 +205,19 @@ public class DashboardDesign extends Dashboard {
 			
 		});
 		
+		clear.addClickListener(new ClickListener () {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				usage.clear();
+				directions.clear();
+				news.clear();
+				weather.clear();
+				math.clear();
+			}
+			
+		});
+		
 	}
 	
 	public void receiveDirections (Directions dir) {

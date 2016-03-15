@@ -52,5 +52,19 @@ public class WeatherMaps extends VerticalLayout {
 			map.addMarker(null, new LatLon(weather.getLatitude(), weather.getLongitude()), false, null);
 		}
 	}
+
+	public void clear() {
+		this.removeComponent(map);
+		map = new GoogleMap("AIzaSyBbcq6id_NE2X_M-Fr7vXqCV6DLLYcDZ78", null, "english");
+		map.setSizeFull();
+		
+		map.setCenter(new LatLon(42.9837, -81.2497));
+		map.setZoom(6);
+	
+		
+		this.addComponent(map);
+		this.setComponentAlignment(map, Alignment.MIDDLE_CENTER);
+		
+	}
 	
 }

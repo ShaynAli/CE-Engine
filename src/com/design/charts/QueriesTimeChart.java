@@ -128,4 +128,36 @@ public class QueriesTimeChart extends VerticalLayout {
 			
 		}
 	}
+
+	public void clear() {
+		this.removeComponent(chart);
+		chart = new Chart(ChartType.LINE);
+		conf = chart.getConfiguration();
+		conf.setTitle("Queries Over Time");
+		sms = new DataSeries();
+		voice = new DataSeries();
+		
+		YAxis y = conf.getyAxis();
+		y.setTitle("Number of Queries");
+		y.getTitle().setAlign(VerticalAlign.MIDDLE);
+		
+		XAxis x = conf.getxAxis();
+		x.setTitle("Time");
+		x.getTitle().setAlign(VerticalAlign.MIDDLE);
+		x.setType(AxisType.DATETIME);
+		
+		PlotOptionsLine plot = new PlotOptionsLine();
+		conf.setPlotOptions(plot);
+		conf.addSeries(voice);
+		conf.addSeries(sms);
+		
+		conf.getLegend().setEnabled(false);
+		
+		sms.setName("SMS");
+		voice.setName("Voice");
+		
+		chart.setSizeFull();
+		this.addComponent(chart);
+		
+	}
 }

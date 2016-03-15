@@ -350,6 +350,34 @@ public class DashView extends Panel {
 		wemap.receiveWeather(weather);
 		
 	}
+	
+	public void clear () {
+		if (confchart != null) {
+			confchart.clear();
+		}
+		
+		if (timechart != null) {
+			timechart.clear();
+		}
+		
+		if (wrap != null) {
+			wrap.clear();
+		}
+		
+		if (wemap != null) {
+			wemap.clear();
+		}
+		
+		if (distchart != null) {
+			distchart.clear();
+		}
+		
+		if (dirmap != null) {
+			dirmap.clear();
+		}
+		
+		
+	}
 
 	
 	
