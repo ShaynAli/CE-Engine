@@ -24,7 +24,7 @@ public class Wolfram {
 			static int NO_PODS_TO_INCL = 3;
 //			static int alwaysInclIDs = {}; // POD IDs to always include, if they exist for a query
 
-			public static boolean wolframAlpha(Queries qu)
+			public static String wolframAlpha(Queries qu)
 			{
 		    	String queryStr = qu.getQuery();
 				StringBuilder result = new StringBuilder();
@@ -51,7 +51,7 @@ public class Wolfram {
 					qu.setSuccessful(false);
 		    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
 		    		ProcessUser.persistWolfram(qu);
-		    		return false;
+		    		return null;
 				}
 				
 				// Error case
@@ -60,14 +60,14 @@ public class Wolfram {
 					qu.setSuccessful(false);
 		    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
 		    		ProcessUser.persistWolfram(qu);
-		    		return false;
+		    		return null;
 				}
 				else if (!queryResult.isSuccess())
 				{
 					qu.setSuccessful(false);
 		    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
 		    		ProcessUser.persistWolfram(qu);
-		    		return false;
+		    		return null;
 				}
 				// Response generation
 				else
@@ -139,7 +139,7 @@ public class Wolfram {
 				qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
 				ProcessUser.persistWolfram(qu, result.toString());
 				
-				return true;
+				return result.toString();
 		    	 
 			} // wolframAlpha method
 				

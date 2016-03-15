@@ -18,7 +18,7 @@ public class News {
 	
 	}
 	
-	public static void getNews(Queries qu){
+	public static String getNews(Queries qu){
 		
 		String query = qu.getQuery();
 		String type = qu.getType();
@@ -73,6 +73,7 @@ public class News {
 		}
 		
 		ProcessUser.persistNews(qu, publisher, finalMessage);
+		return finalMessage;
 	}
 
 }
