@@ -18,7 +18,7 @@ public class TwilioVoiceServlet extends HttpServlet
 	
 	public void service(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException
 	{
-		String recordingUrl = httpRequest.getParameter("RecordingURL");
+		String recordingUrl = httpRequest.getParameter("RecordingUrl");
 		System.out.println("Recording URL: " + recordingUrl);
 		TwiMLResponse response = new TwiMLResponse();
 		
