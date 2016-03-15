@@ -101,5 +101,6 @@ public class News implements Serializable {
     public String toString() {
         return "jpabuilder.News[ id=" + id + " ]";
     }
+
     
 }

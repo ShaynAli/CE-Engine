@@ -32,8 +32,7 @@ public class PublisherChart {
 	private ListSeries sms;
 	private XAxis x;
 	
-	private Map <String, Integer> map;
-	List <Number> data;
+	private Map <String, int []> map;
 	
 	static EntityManager em = Persistence.createEntityManagerFactory("DesignProject").createEntityManager();
 	
@@ -54,9 +53,8 @@ public class PublisherChart {
 	    conf.setLegend(buildLegend());
 	    
 	    x = new XAxis();
-	    
-	    map = new HashMap <String, Integer>();
-	    data = new ArrayList<Number>();
+	   
+	    map = new HashMap <String, int []>();
 	    
 	    loadData();
 	}
@@ -79,22 +77,37 @@ public class PublisherChart {
 		List <News> news = em.createQuery(qu).getResultList();
 		
 		for (int i = 0; i< news.size(); i++) {
-			if (news.get(i).getQueries().getType().equals("sms")) {
-				if (!Arrays.asList(x.getCategories()).contains(news.get(i).getPublisher())) {
-					map.put(news.get(i).getPublisher(), x.getCategories().length);
-					x.addCategory(news.get(i).getPublisher());
-					data.add(1);
+			if (!map.containsKey(news.get(i).getPublisher())) {
+				int array [] = {0,0};
+				if (news.get(i).getQueries().getType().equals("sms")) {
+					 array[1] = 1;
 				} else {
-					data.set(map.get(news.get(i).getPublisher()), data.get(map.get(news.get(i).getPublisher())) + 1);
-					data.get()
+					 array [0]= 1;
+				}
+				map.put(news.get(i).getPublisher(), array);
+			} else {
+				int array [] = map.get(news.get(i).getPublisher());
+				if (news.get(i).getQueries().getType().equals("sms")) {
+					 array[1] ++;
+				} else {
+					 array [0]++;
 				}
 				
-				
-				
-			} else {
-				
+				map.put(news.get(i).getPublisher(), array);
 			}
 		}
+		String array []= new String [map.size()];
+		int i = 0;
+		for (String key: map.keySet()){
+			array[i] = key;
+			i++;
+		}
+		
+		conf.getxAxis().setCategories(array);
+		
+		
 	}
+	
+	
 	
 }
