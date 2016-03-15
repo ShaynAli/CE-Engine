@@ -1,7 +1,16 @@
 package com.design.communicate;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
+
+import com.ibm.watson.developer_cloud.http.HttpMediaType;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
+import com.ibm.watson.developer_cloud.text_to_speech.v1.TextToSpeech;
+import com.ibm.watson.developer_cloud.text_to_speech.v1.model.Voice;
 
 public class VoiceProcessing {
 	
@@ -16,7 +25,27 @@ public class VoiceProcessing {
 	
 	public static String processAudio(URL audioURL)
 	{
+		SpeechToText service = new SpeechToText();
+		InputStream audioIn = null;
+		try {
+			audioIn = audioURL.openStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		File audio = null;
+		try {
+			audio = File.createTempFile(audioURL.getFile(), ".wav");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		audio.deleteOnExit();
+		
+		SpeechResults transcript = service.recognize(audio, HttpMediaType.AUDIO_WAV);
+		return transcript.toString();
+
 	}
 	
 //	public static void processAudio(URL audioURL, String streamToURL)
