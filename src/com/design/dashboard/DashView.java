@@ -1,5 +1,6 @@
 package com.design.dashboard;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import com.design.charts.ConfidenceChart;
@@ -10,6 +11,8 @@ import com.design.charts.QueriesTimeChart;
 import com.design.charts.QueryClassPieChart;
 import com.design.charts.TableWrapper;
 import com.design.charts.WeatherMaps;
+import com.design.persistence.Directions;
+import com.design.persistence.Queries;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -36,22 +39,23 @@ public class DashView extends Panel {
 	private CssLayout dashboardPanels;
 	private final VerticalLayout root;
 	private Label titleLabel;
-	private ConfidenceChart confchart;
-	private QueriesTimeChart timechart;
-	private TableWrapper tablewrapper;
+	
+	private DistanceChart distchart = null;
+	private ConfidenceChart confchart = null;
+	private QueryClassPieChart piechart = null;
+	private QueriesTimeChart timechart = null;
+	private TableWrapper wrap = null;
+	private DirectionMaps dirmap;
+	private WeatherMaps wemap;
 	
 	private String title;
 	private String type;
 	private String queryTableTitle;
 	
-	private Component components [];
-	
 	public DashView (String title, String type, String quTitle) {
 		this.title = title;
 		this.type = type;
 		this.queryTableTitle = quTitle;
-		
-		components = new Component[4];
 		
 		root = new VerticalLayout();
 		ui();
@@ -127,56 +131,47 @@ public class DashView extends Panel {
 	 }
 	 
 	 private Component buildDirectionMap (int i) {
-		 DirectionMaps map = new DirectionMaps();
-		 map.setSizeFull();
-		 components [i] = map;
-		 return createContentWrapper(map);
+		 dirmap = new DirectionMaps();
+		 dirmap.setSizeFull();
+		 return createContentWrapper(dirmap);
 	 }
 	 
 	 private Component buildWeatherMap (int i) {
-		 WeatherMaps map = new WeatherMaps();
-		 components [i] = map;
-		 map.setSizeFull();
-		 return createContentWrapper(map);
+		 wemap = new WeatherMaps();
+		 wemap.setSizeFull();
+		 return createContentWrapper(wemap);
 	 }
 	 
 	 private Component buildDistanceChart (int i) {
-		 DistanceChart chart = new DistanceChart();
-		 chart.setSizeFull();
-		 components[i] = chart;
-		 return createContentWrapper(chart);
+		 distchart = new DistanceChart();
+		 distchart.setSizeFull();
+		 return createContentWrapper(distchart);
 	 }
 	 private Component buildQueryClassPieChart (int i) {
-		 QueryClassPieChart chart = new QueryClassPieChart();
-		 chart.setSizeFull();
-		 components[i] = chart;
-		 return createContentWrapper(chart);
+		 piechart = new QueryClassPieChart();
+		 piechart.setSizeFull();
+		 return createContentWrapper(piechart);
 	 }
 	 private Component buildPieChart(int i) {
 	        DirectionsPieChart chart = new DirectionsPieChart(type);
 	        chart.setSizeFull();
-	        components[i] = chart;
 	        return createContentWrapper(chart);
 	 }
 	 
 	 private Component buildConfidenceChart (int i) {
 		 	confchart = new ConfidenceChart(type);
 		 	confchart.setSizeFull();
-		 	components [i] = confchart;
 		 	return createContentWrapper(confchart);
 	 }
 	 
 	 private Component buildQueriesTimeChart (int i) {
 		 timechart = new QueriesTimeChart(type);
 		 timechart.setSizeFull();
-		 components[i] = timechart;
 		 return createContentWrapper(timechart);
 	 }
 	 
 	 private Component buildQueryTable (int i) {	
-		 	TableWrapper wrap = new TableWrapper(queryTableTitle, type);
-		 	tablewrapper = wrap;
-		 	components[i] = wrap;
+		 	wrap = new TableWrapper(queryTableTitle, type);
 			Component wrapper =  createContentWrapper(wrap);
 			wrapper.addStyleName("top10-revenue");
 			return wrapper;
@@ -264,22 +259,81 @@ public class DashView extends Panel {
 	    }
 	 
 	 public void switchToBoth () {
-		 confchart.switchToBoth();
-		 timechart.switchToBoth();
-		 tablewrapper.switchToBoth();
+		if (distchart != null) {
+			distchart.switchToBoth();
+		}
+		 
+		if (confchart != null) {
+			confchart.switchToBoth();
+		}
+		
+		if (timechart != null) {
+			timechart.switchToBoth();
+		}
+		
+		if (wrap != null)  {
+			wrap.switchToBoth();
+		}
 	 }
 	 
 	 public void switchToSms () {
-		 confchart.switchToSMS();
-		 timechart.switchToSms();
-		 tablewrapper.switchToSms();
+		 if (distchart != null) {
+				distchart.switchToSms();
+			}
+			 
+			if (confchart != null) {
+				confchart.switchToSMS();
+			}
+			
+			if (timechart != null) {
+				timechart.switchToSms();
+			}
+			
+			if (wrap != null)  {
+				wrap.switchToSms();
+			}
 	 }
 	 
 	 public void switchToVoice () {
-		 confchart.switchToVoice();
-		 timechart.switchToVoice();
-		 tablewrapper.switchToVoice();
+		 if (distchart != null) {
+				distchart.switchToVoice();
+			}
+			 
+			if (confchart != null) {
+				confchart.switchToVoice();
+			}
+			
+			if (timechart != null) {
+				timechart.switchToVoice();
+			}
+			
+			if (wrap != null)  {
+				wrap.switchToVoice();
+			}
 	 }
+	 
+	 public void receiveDirections (Directions dir) {
+		 dirmap.receiveLocation(dir);
+		 timechart.receiveLocation(dir);
+		 distchart.receiveLocation(dir);
+		 wrap.receiveLocation(dir);
+	 }
+	 
+	 public void receiveStandardQuery (Queries qu) {
+		 timechart.receiveStandardQuery(qu);
+		 wrap.recieveStandardQuery(qu);
+	 }
+
+	public void receiveQuery(Queries qu) {
+		if (qu.getClass1().equals("math")) {
+			timechart.receiveStandardQuery(qu);
+			confchart.receiveStandardQuery(qu);
+			wrap.receiveWolfram(qu);
+		}
+		
+	}
+
+	
 	
 	
 	

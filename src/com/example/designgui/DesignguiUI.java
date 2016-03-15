@@ -31,6 +31,8 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 	@VaadinServletConfiguration(productionMode = false, ui = DesignguiUI.class, widgetset = "com.example.designgui.widgetset.DesignguiWidgetset")
 	public static class Servlet extends VaadinServlet {
 	}
+	
+	private DashboardDesign dashboard;
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -38,15 +40,8 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 		
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
-		setContent(new DashboardDesign ());
-
-		Button button = new Button("Click Me");
-		button.addClickListener(new Button.ClickListener() {
-			public void buttonClick(ClickEvent event) {
-				layout.addComponent(new Label("Thank you for clicking"));
-			}
-		});
-		//layout.addComponent(new DirectionsPieChart());
+		dashboard = new DashboardDesign();
+		setContent(dashboard);
 	}
 	
 	@Override
@@ -68,14 +63,24 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 
 	@Override
 	public void receiveBroadcast(Queries qu) {
-		Notification.show("Received Query.");
-		System.out.println("received query");
+		this.access(new Runnable () {
+			@Override
+			public void run () {
+				dashboard.receiveQuery(qu);
+				UI.getCurrent().push();
+			}
+		});
 	}
 
 	@Override
 	public void receiveBroadcast(Directions dir) {
-		Notification.show("Received directions");
-		System.out.println("received directions");
+		this.access(new Runnable () {
+			@Override
+			public void run () {
+				dashboard.receiveDirections(dir);
+				UI.getCurrent().push();
+			}
+		});
 	}
 
 	@Override

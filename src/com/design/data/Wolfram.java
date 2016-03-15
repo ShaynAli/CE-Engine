@@ -20,222 +20,123 @@ import com.wolfram.alpha.WASubpod;
 
 // This was originally an interface, it may be better as a class or it may not be
 public class Wolfram {
-	// static int INPUT_POD_ID =
-	static int NO_PODS_TO_INCL = 3;
-	static String[] alwaysInclIDs = { "Result" }; // POD IDs to always include,
-													// if they exist for a query
-	static String[] alwaysExclIDs = { "RootPlot" }; // POD IDs to always
-													// exclude, if they exist
-													// for a query
+ 
+			static int NO_PODS_TO_INCL = 3;
+//			static int alwaysInclIDs = {}; // POD IDs to always include, if they exist for a query
 
-	public static boolean wolframAlpha(Queries qu)
-	{
-    	String queryStr = qu.getQuery();
-    	
-    	boolean illuminatiConfirmed = (search("george bush", queryStr) > 0);
-    	
-		StringBuilder result = new StringBuilder(".\n");
-    	
-    	// Basic engine setup
-    	WAEngine engine = new WAEngine();
-    	engine.setAppID("7AHUTR-UV58KYXA8Q");
-    	 
-    	// Set up query with necessary parameters
-    	WAQuery query = engine.createQuery();
-    	query.setInput(queryStr);
-    	// query.addIncludePodID(arg0);
-    	
-    	// Deal with always include and exclude queries
-    	// Always include
-    	for (String ID:alwaysInclIDs)
-    	{
-    		query.addIncludePodID(ID);
-    	}
-    	// Always exclude
-    	for (String ID:alwaysExclIDs)
-    	{
-    		query.addExcludePodID(ID);
-    	}
-    	
-    	// Query retrieval and error handling
-    	WAQueryResult queryResult = null;
-		try
-		{
-			queryResult = engine.performQuery(query);
-		}
-		catch (WAException e)
-		{
-			// WIP: Handle WA engine errors
-			e.printStackTrace(); // Might not want this; need to generate a response
-			qu.setSuccessful(false);
-    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
-    		ProcessUser.persistWolfram(qu);
-    		return false;
-		}
-		
-		// Error case
-		if (queryResult.isError())
-		{
-			qu.setSuccessful(false);
-    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
-    		ProcessUser.persistWolfram(qu);
-    		return false;
-		}
-		else if (!queryResult.isSuccess())
-		{
-			qu.setSuccessful(false);
-    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
-    		ProcessUser.persistWolfram(qu);
-    		return false;
-		}
-		// Response generation
-		else
-		{
-			// To do:
-			// 1. Determine what the query is relevant to
-			// 2. Organize the query as needed (if needed)
-			// 3. Set up assumptions (as needed)
-			// 4. Get WA engine response
-			// 5. Sort through response
-			// 6. Generate result with parts of response
-
-			// Alt method:
-			// Include first few pods in output
-			// Have some pods, which if they exist for this entry, are always included
-			
-			// Retrieve result pods
-			WAPod[] pods = queryResult.getPods();
-			
-			// Result generation
-//			if (pods.length > 0)
-//			{
-				// Include pods which must always be included first (if they exist)
-				// WIP
-				// First few pods included
-				int podI = 0;
-				if (pods[podI].getID().equals("Input")) // Exclude 'Input interpretation' pod
+			public static boolean wolframAlpha(Queries qu)
+			{
+		    	String queryStr = qu.getQuery();
+				StringBuilder result = new StringBuilder(".\n");
+		    	
+		    	// Basic engine setup
+		    	WAEngine engine = new WAEngine();
+		    	engine.setAppID("7AHUTR-UV58KYXA8Q");
+		    	 
+		    	// Set up query with necessary parameters
+		    	WAQuery query = engine.createQuery();
+		    	query.setInput(queryStr);
+		    	// query.addIncludePodID(arg0);
+		    	
+		    	// Query retrieval and error handling
+		    	WAQueryResult queryResult = null;
+				try
 				{
-					podI++;
+					queryResult = engine.performQuery(query);
 				}
-				for (/* int podI = 0 */ ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
+				catch (WAException e)
 				{
-					if (!pods[podI].isError())
+					// WIP: Handle WA engine errors
+					e.printStackTrace(); // Might not want this; need to generate a response
+					qu.setSuccessful(false);
+		    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
+		    		ProcessUser.persistWolfram(qu);
+		    		return false;
+				}
+				
+				// Error case
+				if (queryResult.isError())
+				{
+					qu.setSuccessful(false);
+		    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
+		    		ProcessUser.persistWolfram(qu);
+		    		return false;
+				}
+				else if (!queryResult.isSuccess())
+				{
+					qu.setSuccessful(false);
+		    		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
+		    		ProcessUser.persistWolfram(qu);
+		    		return false;
+				}
+				// Response generation
+				else
+				{
+					// To do:
+					// 1. Determine what the query is relevant to
+					// 2. Organize the query as needed (if needed)
+					// 3. Set up assumptions (as needed)
+					// 4. Get WA engine response
+					// 5. Sort through response
+					// 6. Generate result with parts of response
+
+					// Alt method:
+					// Include first few pods in output
+					// Have some pods, which if they exist for this entry, are always included
+					
+					// Retrieve result pods
+					WAPod[] pods = queryResult.getPods();
+					
+					// Result generation
+					
+					// Include pods which must always be included first (if they exist)
+					// WIP
+					// First few pods included
+					int podI = 0;
+					if (pods[podI].getID().equals("Input")) // Exclude 'Input interpretation' pod
 					{
-						StringBuilder title = new StringBuilder(pods[podI].getTitle());
-						title.replace(0, 1, "" + Character.toUpperCase(title.charAt(0)));
-						result.append(title);
-						result.append(": \n");
-						WASubpod[] subpods = pods[podI].getSubpods();
-						for (WASubpod subpod : subpods)
+						podI++;
+					}
+					for (/* int podI = 0 */ ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
+					{
+						if (!pods[podI].isError())
 						{
-							// Iterate through elements of the subpod and include plaintext elements
-							for (Object element : subpod.getContents())
+							result.append(pods[podI].getTitle());
+							result.append(": \n");
+							WASubpod[] subpods = pods[podI].getSubpods();
+							for (WASubpod subpod : subpods)
 							{
-								if (element instanceof WAPlainText)
+								// Iterate through elements of the subpod and include plaintext elements
+								for (Object element : subpod.getContents())
 								{
-									result.append(((WAPlainText) element).getText());
+									if (element instanceof WAPlainText)
+									{
+										result.append(((WAPlainText) element).getText());
+									}
 								}
+								result.append('\n');
 							}
-							result.append('\n');
+						}
+						else
+						{
+							podI--;
 						}
 					}
-					else
-					{
-					podI--;
-					}
+					
+					// Include pods which must always be included at the end (if they exist)
+					// WIP
 				}
-				if (illuminatiConfirmed)
-				{
-					result.append("Jet fuel can't melt steel beams\n");
-					System.out.println("dank memes");
-				}
-//			}
-//			else
-//			{
-//				result.append("The answer could not be returned in text form.");
-//			}
-			
-			// Include pods which must always be included at the end (if they exist)
-			// WIP
+
+					
+
+
+		    	 // Send results through Communicate Module
+				qu.setSuccessful(true);
+				qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
+				ProcessUser.persistWolfram(qu, result.toString());
+				
+				return true;
+		    	 
+			} // wolframAlpha method
+				
 		}
-
-			
-
-
-    	 // Send results through Communicate Module
-		qu.setSuccessful(true);
-		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
-		ProcessUser.persistWolfram(qu, result.toString());
-		
-		return true;
-    	 
-	} // wolframAlpha method
-	
-	static int search(String search, String str)
-	{
-		int foundI = -1;
-		int maxI = str.length() - search.length();
-		for (int i = 0; i < maxI; i++)
-		{
-			if (str.charAt(i) == search.charAt(0))
-			{
-				foundI = i;
-				for (int j = 0; j < search.length(); j++)
-				{
-					if(str.charAt(i + j) != search.charAt(j))
-					{
-						foundI = -1;
-						break;
-					}
-				}
-			}
-		}
-		return foundI;
-	}
-
-} // Wolfram class
-
-// Dane's old code (in 'Response generation' else block
-// outerloop:
-//
-// for (WAPod pod : queryResult.getPods()) {
-//
-// if (!pod.isError()) {
-//
-// for (WASubpod subpod : pod.getSubpods()) {
-// for (Object element : subpod.getContents()) {
-// if (element instanceof WAPlainText) {
-//
-// if (body.toLowerCase().contains("derivative") ||
-// body.toLowerCase().contains("deriv")) {
-// if (((WAPlainText) element).getText().contains("d/dx")) {
-// result += ((WAPlainText) element).getText();
-// if (body.toLowerCase().contains("integral") ||
-// body.toLowerCase().contains("integrate") ||
-// body.toLowerCase().contains("derivative")) {
-// break outerloop;
-// }
-//
-// }
-// } else {
-// if (!((WAPlainText) element).getText().contains("Plot")) {
-// System.out.println(((WAPlainText) element).getText());
-// result += ((WAPlainText) element).getText();
-// if (body.toLowerCase().contains("integral") ||
-// body.toLowerCase().contains("integrate") ||
-// body.toLowerCase().contains("derivative")) {
-// break outerloop;
-// }
-// }
-// }
-// }
-// }
-// }
-// }
-// }
-
-// Dane's old code (right before 'Communicate.sendtext(result);' line
-// result = result.replace("+", " + ");
-// result = result.replace("-", " - ");
-// result = result.replace("constant", "C");
-// result = result.replace("=", "\n=");

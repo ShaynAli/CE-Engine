@@ -50,4 +50,13 @@ public class DirectionMaps extends VerticalLayout {
 		}
 	}
 	
+	public void receiveLocation (Directions dir) {
+		if (dir.getOrigLat() != null) {
+			map.addMarker(null, new LatLon(dir.getOrigLat(), dir.getOrigLon()), false, null);
+		}
+		if (dir.getDestLat() != null) {
+			map.addMarker(null, new LatLon(dir.getDestLat(), dir.getDestLon()), false, null);
+		}
+	}
+	
 }

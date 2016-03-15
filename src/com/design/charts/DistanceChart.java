@@ -82,4 +82,31 @@ public class DistanceChart extends VerticalLayout {
 		}
 	}
 	
+	public void switchToBoth () {
+		sms.setVisible(true);
+		voice.setVisible(true);
+	}
+	
+	public void switchToSms () {
+		sms.setVisible(true);
+		voice.setVisible(false);
+	}
+	
+	public void switchToVoice () {
+		sms.setVisible(false);
+		voice.setVisible(true);
+	}
+	
+	public void receiveLocation (Directions dir) {
+		try {
+			if (dir.getQueries().getType().equals("sms")) {
+				sms.add(new DataSeriesItem(sms.size() + 1, dir.getDistance()));
+			} else {
+				voice.add(new DataSeriesItem(voice.size() + 1, dir.getDistance()));
+			}
+		} catch (Exception ex) {
+			
+		}
+	}
+	
 }

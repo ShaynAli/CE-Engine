@@ -1,5 +1,7 @@
 package com.design.dashboard;
 
+import com.design.persistence.Directions;
+import com.design.persistence.Queries;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
@@ -53,16 +55,19 @@ public class DashboardDesign extends Dashboard {
 					news.switchToBoth();
 					math.switchToBoth();
 					weather.switchToBoth();
+					usage.switchToBoth();
 				} else if (select.getValue().equals("SMS")) {
 					directions.switchToSms();
 					news.switchToSms();
 					math.switchToSms();
 					weather.switchToSms();
+					usage.switchToSms();
 				} else if (select.getValue().equals("Voice")) {
 					directions.switchToVoice();
 					news.switchToVoice();
 					math.switchToVoice();
 					weather.switchToVoice();
+					usage.switchToVoice();
 				}
 			}
 			
@@ -196,6 +201,19 @@ public class DashboardDesign extends Dashboard {
 			
 		});
 		
+	}
+	
+	public void receiveDirections (Directions dir) {
+		directions.receiveDirections(dir);
+		usage.receiveStandardQuery(dir.getQueries());
+	}
+
+	public void receiveQuery(Queries qu) {
+		if (qu.getClass1().equals("math")) {
+			math.receiveQuery(qu);
+			usage.receiveStandardQuery(qu);
+			
+		}
 	}
 	
 }

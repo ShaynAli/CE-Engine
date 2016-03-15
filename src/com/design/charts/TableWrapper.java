@@ -259,4 +259,35 @@ public class TableWrapper extends VerticalLayout {
 		switchToBoth().addContainerFilter(new Compare.Equal("type", "voice"));
 	}
 	
+	public void receiveLocation (Directions queries) {
+		System.out.println("hemmmklklklere");
+		CheckBox box = new CheckBox();
+		box.setValue(queries.getQueries().getSuccessful());
+		box.setEnabled(false);
+		table.addItem(new Object [] {table.size() + 1, queries.getQueries().getQuery(), box,
+				WordUtils.capitalize(queries.getOrigin()), WordUtils.capitalize(queries.getDestination())},
+				queries.getId());
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+		
+		
+	}
+	
+	public void recieveStandardQuery (Queries qu) {
+		CheckBox box = new CheckBox();
+		box.setValue(qu.getSuccessful());
+		box.setEnabled(false);
+	
+		table.addItem(new Object [] {table.size() + 1, qu.getQuery(), box, qu.getClass1()}, qu.getId());
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+	}
+	
+	public void receiveWolfram (Queries qu) {
+		CheckBox box = new CheckBox();
+		box.setValue(qu.getSuccessful());
+		box.setEnabled(false);
+		table.addItem(new Object [] {table.size() + 1, qu.getQuery(), box},
+				qu.getId());
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+	}
+	
 }

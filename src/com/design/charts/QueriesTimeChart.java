@@ -19,7 +19,7 @@ import com.vaadin.addon.charts.model.XAxis;
 import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.VerticalLayout;
-
+import com.design.persistence.Directions;
 import com.design.persistence.Queries;
 
 public class QueriesTimeChart extends VerticalLayout {
@@ -105,4 +105,27 @@ public class QueriesTimeChart extends VerticalLayout {
 		voice.setVisible(true);
 	}
 	
+	public void receiveLocation (Directions dir) {
+		try {
+			if (dir.getQueries().getType().equals("sms")) {
+				sms.add(new DataSeriesItem(dir.getQueries().getTime(), sms.size()+1));
+			} else {
+				voice.add(new DataSeriesItem(dir.getQueries().getTime(), voice.size() + 1));
+			}
+		} catch (Exception ex) {
+			
+		}
+	}
+	
+	public void receiveStandardQuery (Queries qu) {
+		try {
+			if (qu.getType().equals("sms")) {
+				sms.add(new DataSeriesItem(qu.getTime(), sms.size() + 1));
+			} else {
+				voice.add(new DataSeriesItem(qu.getTime(), voice.size() + 1));
+			}
+		} catch (Exception ex) {
+			
+		}
+	}
 }

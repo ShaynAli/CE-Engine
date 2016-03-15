@@ -117,5 +117,18 @@ public class ConfidenceChart extends VerticalLayout {
 		sms.setVisible(false);
 		voice.setVisible(true);
 	}
+
+	public void receiveStandardQuery(Queries qu) {
+		try {
+			if (qu.getType().equals("sms")) {
+				sms.add(new DataSeriesItem(sms.size() + 1, qu.getConfidence()*100));
+			} else {
+				voice.add(new DataSeriesItem(voice.size() + 1, qu.getConfidence()*100));
+			}
+		} catch (Exception ex) {
+			
+		}
+		
+	}
 	
 }
