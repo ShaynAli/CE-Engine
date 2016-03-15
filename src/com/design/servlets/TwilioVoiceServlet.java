@@ -38,6 +38,7 @@ public class TwilioVoiceServlet extends HttpServlet
 		}
 		else
 		{
+			System.out.println("recordingURL was null");
 			httpResponse.sendRedirect("/echo");
 			return;
 		}
