@@ -7,6 +7,9 @@
  */
 package com.design.data;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import com.design.communicate.ProcessUser;
 import com.design.persistence.Queries;
 import com.design.servlets.SMSServlet;
@@ -22,9 +25,9 @@ import com.wolfram.alpha.WASubpod;
 public class Wolfram {
 	 
 	static int NO_PODS_TO_INCL = 4;
-//	static int alwaysInclIDs = {}; // POD IDs to always include, if they exist for a query
+	static HashSet<String> alwaysExclIDs = new HashSet<String>(Arrays.asList("", " ", "Plot", "Location", "Local map", "3DPlot", "ContourPlot")); // POD IDs (and titles) to always exclude, if they exist for a query
 
-	public static boolean wolframAlpha(Queries qu)
+	public static String wolframAlpha(Queries qu)
 	{
     	String queryStr = qu.getQuery();
 		StringBuilder result = new StringBuilder("");
@@ -51,7 +54,7 @@ public class Wolfram {
 			qu.setSuccessful(false);
     		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
     		ProcessUser.persistWolfram(qu);
-    		return false;
+    		return null;
 		}
 		
 		// Error case
@@ -60,14 +63,14 @@ public class Wolfram {
 			qu.setSuccessful(false);
     		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
     		ProcessUser.persistWolfram(qu);
-    		return false;
+    		return null;
 		}
 		else if (!queryResult.isSuccess())
 		{
 			qu.setSuccessful(false);
     		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
     		ProcessUser.persistWolfram(qu);
-    		return false;
+    		return null;
 		}
 		// Response generation
 		else
@@ -99,7 +102,7 @@ public class Wolfram {
 //			}
 			for (int podI = 0; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
 			{
-				if (!pods[podI].isError())
+				if (!pods[podI].isError() && !alwaysExclIDs.contains(pods[podI].getID()) && !alwaysExclIDs.contains(pods[podI].getTitle()))
 				{
 					result.append(pods[podI].getTitle());
 					result.append(": \n");
@@ -134,9 +137,14 @@ public class Wolfram {
 			
 			// Include pods which must always be included at the end (if they exist)
 			// WIP
+			
+			// Not enough pods
+			if (pods.length <= 1)
+			{
+				result.append("A meaningful text response could not be generated");
+			}
 		}
 
-			
 
 
     	 // Send results through Communicate Module
@@ -144,7 +152,7 @@ public class Wolfram {
 		qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
 		ProcessUser.persistWolfram(qu, result.toString());
 		
-		return true;
+		return result.toString();
     	 
 	} // wolframAlpha method
 		
