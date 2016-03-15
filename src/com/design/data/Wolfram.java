@@ -25,7 +25,8 @@ import com.wolfram.alpha.WASubpod;
 public class Wolfram {
 	 
 	static int NO_PODS_TO_INCL = 3;
-	static HashSet<String> alwaysExclIDs = new HashSet<String>(Arrays.asList("", " ", "Plot", "Location", "Local map", "3DPlot", "ContourPlot", "Timeline")); // POD IDs (and titles) to always exclude, if they exist for a query
+	static HashSet<String> alwaysExclIDs = new HashSet<String>(Arrays.asList("", " ", "Plot", "Location", "Local map", "3DPlot", "ContourPlot", "Timeline", "Image")); // POD IDs (and titles) to always exclude, if they exist for a query
+	static String[] arrExclIDs = {" ", "Plot", "Location", "Local map", "3DPlot", "ContourPlot", "Timeline"};
 
 	public static String wolframAlpha(Queries qu)
 	{
@@ -39,7 +40,13 @@ public class Wolfram {
     	// Set up query with necessary parameters
     	WAQuery query = engine.createQuery();
     	query.setInput(queryStr);
-    	// query.addIncludePodID(arg0);
+    	
+    	// Exclude IDs
+    	for (String ID: arrExclIDs)
+    	{
+    		query.addExcludePodID(ID);
+    	}
+    	
     	
     	// Query retrieval and error handling
     	WAQueryResult queryResult = null;
