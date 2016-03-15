@@ -27,11 +27,12 @@ public class VoiceProcessing {
 		return transcript.toString();
 	}
 	
-	public static String processAudio(URL audioURL)
+	public static void processAudio(URL audioURL, String streamToURL)
 	{
 		// Set up
 		SpeechToText service = new SpeechToText();
 		service.setUsernameAndPassword("6ce30912-e2be-4a99-9e7a-4e712c5d0cd5", "6XZo4JOLKy6W");
+		service.setEndPoint(streamToURL);
 		
 		// Stream audio
 
@@ -47,21 +48,16 @@ public class VoiceProcessing {
 		RecognizeOptions options = new RecognizeOptions().continuous(true).interimResults(false	);
 		options.contentType("audio/wav");
 		
+	
 		
-		service.recognizeUsingWebSockets(audioIn, options, new BaseRecognizeDelegate() {
+		service.recognizeUsingWebSockets(audioIn, options, new BaseRecognizeDelegate()
+		{
 			@Override
 			public void onMessage(SpeechResults speech) {
 				System.out.println(speech);
-				strOutput(speech);
-			}
-			public String strOutput(SpeechResults speech)
-			{
-				return speech.toString();
+				speech.toString();
 			}
 		});
-		
-		return service.strOutput();
-
 	}
 	
 	public void toVoice () {

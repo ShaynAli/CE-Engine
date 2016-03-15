@@ -282,7 +282,7 @@ public class ProcessUser {
 				query.setTime(new Date());
 				query.setType("voice");
 				
-				String result;
+				String result = null;
 		    	
 		    	if (success) { // If successful map to correct data source
 		    		System.out.println(classification.getTopClass());
@@ -293,15 +293,15 @@ public class ProcessUser {
 		    		} else if (classification.getTopClass().equals("math")) {
 		    			query.setClass1("math");
 		    			Broadcaster.broadcast("class", query);
-		    			//result = Wolfram.wolframAlpha(query);
+		    			result = Wolfram.wolframAlpha(query);
 		    		} else if (classification.getTopClass().equals("weather")) {
 		    			query.setClass1("weather");
 		    			Broadcaster.broadcast("class", query);
-		    			//result = com.design.data.Weather.weather(query);
+		    			result = com.design.data.Weather.weather(query);
 		    		} else if (classification.getTopClass().equals("news")) {
 		    			query.setClass1("news");
 		    			Broadcaster.broadcast("class", query);
-		    			//result = com.design.data.News.getNews(query);
+		    			result = com.design.data.News.getNews(query);
 		    		}
 		    		else
 		    		{
@@ -314,8 +314,13 @@ public class ProcessUser {
 		    		query.setClass1("");
 		    		query.setSuccessful(false);
 		    		
+		    		em.getTransaction().begin();
+		    		em.persist(query);
+		    		em.getTransaction().commit();
+		    		
+		    		return null;
 		    	}
-		    return null;
+		    return result;
 
 	}
 	

@@ -19,7 +19,7 @@ import com.design.servlets.SMSServlet;
 
 public class Weather {
 
-	public static void weather (Queries query) {
+	public static String weather (Queries query) {
 		
 		String text = query.getQuery();
     	text = text.toLowerCase();
@@ -32,14 +32,14 @@ public class Weather {
     	text = text.trim();
     	
     	if (text.contains(" ")) {
-    		latLonWeatherSearch(query, text);
+    		return latLonWeatherSearch(query, text);
     	} else {
-    		normalWeatherSearch(query, text);	
+    		return normalWeatherSearch(query, text);	
     	}
 			
     }
     
-    public static void latLonWeatherSearch (Queries query, String text) {
+    public static String latLonWeatherSearch (Queries query, String text) {
     	String output = ".\n";
     	text = text.replace(" ", "+");
 		String [] loc = Maps.getLatLong(text);
@@ -93,16 +93,20 @@ public class Weather {
 	    		ProcessUser.persistWeather(query, output);
 	    	}
 	    	
+	    	return output;
+	    	
 		} else {
 			query.setSuccessful(false);
     		query.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
     		ProcessUser.persistWeather(query, output);
+    		
+    		return output;
 		}
 
 	}
     
     
-    public static void normalWeatherSearch (Queries query, String text) {
+    public static String normalWeatherSearch (Queries query, String text) {
 
     	String output = ".\n";
     	OwmClient owm = new OwmClient ();
@@ -158,10 +162,12 @@ public class Weather {
     		query.setSuccessful(true);
     		query.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
     		ProcessUser.persistWeather(query, output);
+    		return output;
     	} else {
     		query.setSuccessful(false);
     		query.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
     		ProcessUser.persistWeather(query, output);
+    		return output;
     	}
     }
     
