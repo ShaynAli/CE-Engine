@@ -12,7 +12,6 @@ import com.design.communicate.ProcessUser;
 import com.design.communicate.VoiceProcessing;
 import com.design.persistence.Queries;
 import com.example.designgui.Broadcaster;
-import com.twilio.sdk.verbs.Play;
 import com.twilio.sdk.verbs.Say;
 import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.TwiMLResponse;
@@ -32,8 +31,6 @@ public class TwilioVoiceServlet extends HttpServlet
 			System.out.println("Attempting to record call");
 			try
 			{
-				// Give user heads up on playing recording
-				
 				String queryResponse = VoiceProcessing.processAudio(new URL(recordingUrl));
 				
 				Queries qu = new Queries();
@@ -42,9 +39,6 @@ public class TwilioVoiceServlet extends HttpServlet
 				Broadcaster.broadcast("recog", qu);
 				
 				response.append(new Say("You said " + queryResponse));
-				
-				
-				
 				response.append(new Say(ProcessUser.processVoiceQuery(queryResponse, httpRequest.getParameter("From"))));
 				response.append(new Say("End of message."));
 				
