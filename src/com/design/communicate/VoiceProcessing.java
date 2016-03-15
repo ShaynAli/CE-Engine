@@ -66,6 +66,7 @@ public class VoiceProcessing {
 		SpeechResults transcript = service.recognize(audio, op);
 		audio.deleteOnExit();
 		JSONObject obj = new JSONObject(transcript.toString());
+		System.out.println(obj.toString());
 		System.out.println(obj.getJSONObject("results").getJSONObject("alternative").getJSONObject("transcript").toString());
 		return obj.getJSONObject("results").getJSONObject("alternative").getJSONObject("transcript").toString();
 		

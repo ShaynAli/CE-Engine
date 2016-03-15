@@ -34,7 +34,7 @@ public class TwilioVoiceServlet extends HttpServlet
 				response.append(new Play (recordingUrl));
 				
 				response.append(new Say ("Processing request"));
-				String queryResponse = new String(VoiceProcessing.processAudio(new URL(recordingUrl)));
+				String queryResponse = VoiceProcessing.processAudio(new URL(recordingUrl));
 				response.append(new Say(queryResponse));
 				
 				// Tell when end of message
