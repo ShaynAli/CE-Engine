@@ -120,6 +120,13 @@ public class Wolfram
 									if(eText.length()>0)
 									{
 										eText.replace(0, 1, "" + Character.toUpperCase(eText.charAt(0))); // Capitalization WIP
+										for(int i = 0; i < eText.length(); i++)
+										{
+											if(eText.charAt(i)=='\n')
+											{
+												eText.replace(i+1, i+2, "" + Character.toUpperCase(eText.charAt(i)));
+											}
+										}
 										result.append(eText);
 									}
 //										result.append(((WAPlainText) element).getText()); // To 
