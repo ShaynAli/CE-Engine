@@ -7,9 +7,6 @@
  */
 package com.design.data;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import com.design.communicate.ProcessUser;
 import com.design.persistence.Queries;
 import com.design.servlets.SMSServlet;
@@ -24,7 +21,7 @@ import com.wolfram.alpha.WASubpod;
 // This was originally an interface, it may be better as a class or it may not be
 public class Wolfram {
 	 
-	static int NO_PODS_TO_INCL = 3;
+	static int NO_PODS_TO_INCL = 4;
 //	static int alwaysInclIDs = {}; // POD IDs to always include, if they exist for a query
 
 	public static boolean wolframAlpha(Queries qu)
@@ -95,12 +92,12 @@ public class Wolfram {
 			// Include pods which must always be included first (if they exist)
 			// WIP
 			// First few pods included
-			int podI = 0;
-			if (pods[podI].getID().equals("Input")) // Exclude 'Input interpretation' pod
-			{
-				podI++;
-			}
-			for (/* int podI = 0 */ ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
+//			int podI = 0;
+//			if (pods[podI].getID().equals("Input")) // Exclude 'Input interpretation' pod
+//			{
+//				podI++;
+//			}
+			for (int podI = 0; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
 			{
 				if (!pods[podI].isError())
 				{
@@ -117,7 +114,12 @@ public class Wolfram {
 //								StringBuilder eText = new StringBuilder(((WAPlainText) element).getText());
 //								if(eText.length()>0){eText.replace(0, 1, "" + Character.toUpperCase(eText.charAt(0)));}
 //								result.append(eText);
-								result.append(((WAPlainText) element).getText());
+								String str = ((WAPlainText) element).getText();
+								str.trim();
+								if (str.length()>0)
+								{
+									result.append();
+								}
 							}
 						}
 						result.append('\n');
