@@ -238,7 +238,7 @@ public class ProcessUser {
 	}
 	
 	
-	public String processVoiceQuery (String body, String from) {
+	public static String processVoiceQuery (String body, String from) {
 
 		    	NaturalLanguageClassifier service = new NaturalLanguageClassifier();
 		    	service.setUsernameAndPassword("6e7a6f54-5d89-4454-8f59-1ba52696f989", "TvAzv6xg9Up8");

@@ -1,6 +1,8 @@
 package com.design.dashboard;
 
 import com.design.persistence.Queries;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class ConsoleView extends Console {
@@ -16,12 +18,24 @@ public class ConsoleView extends Console {
 		titleLabel.addStyleName(ValoTheme.LABEL_H1);
         titleLabel.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         textarea.addStyleName("v-textfield-my-text");
+        
+        super.filter.addClickListener(new ClickListener () {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				filter = field.getValue().toString();
+				field.clear();
+				
+			}
+        	
+        });
        // textarea.add
 	}
 
 	public void receiveString(String type, Queries qu) {
 		System.out.println("1heere");
-		if (filter == null || (filter != null &&  qu.getPhone().equals("+1" + filter))) {
+		System.out.println("+1" + filter + "     vs.   " + qu.getPhone().getPhone());
+		if (filter == null || (filter != null &&  qu.getPhone().getPhone().equals("+1" + filter))) {
 			System.out.println("heere");
 			if (type.equals("input")) {
 				super.textarea.clear();

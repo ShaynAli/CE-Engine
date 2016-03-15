@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.design.communicate.ProcessUser;
 import com.design.communicate.VoiceProcessing;
+import com.design.persistence.Queries;
+import com.example.designgui.Broadcaster;
 import com.twilio.sdk.verbs.Play;
 import com.twilio.sdk.verbs.Say;
 import com.twilio.sdk.verbs.TwiMLException;
@@ -30,15 +33,21 @@ public class TwilioVoiceServlet extends HttpServlet
 			try
 			{
 				// Give user heads up on playing recording
-				response.append(new Say ("Here is what was picked up"));
-				response.append(new Play (recordingUrl));
 				
-				response.append(new Say ("Processing request"));
 				String queryResponse = VoiceProcessing.processAudio(new URL(recordingUrl));
-				response.append(new Say(queryResponse));
 				
-				// Tell when end of message
-				response.append(new Say ("End of message"));
+				Queries qu = new Queries();
+				qu.setType("voice");
+				qu.setQuery(queryResponse);
+				Broadcaster.broadcast("recog", qu);
+				
+				response.append(new Say("You said " + queryResponse));
+				
+				
+				
+				response.append(new Say(ProcessUser.processVoiceQuery(queryResponse, httpRequest.getParameter("From"))));
+				response.append(new Say("End of message."));
+				
 			}
 			catch(TwiMLException e)
 			{

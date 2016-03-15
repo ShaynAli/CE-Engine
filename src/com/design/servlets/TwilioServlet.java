@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.design.persistence.Queries;
+import com.example.designgui.Broadcaster;
 import com.twilio.sdk.verbs.Record;
 import com.twilio.sdk.verbs.Say;
 import com.twilio.sdk.verbs.TwiMLException;
@@ -14,7 +16,7 @@ import com.twilio.sdk.verbs.TwiMLResponse;
 public class TwilioServlet extends HttpServlet
 {
 	// Recording time in seconds
-	static int REC_DURATION = 30;
+	static int REC_DURATION = 60;
 	
 	public void service(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException
 	{
@@ -27,7 +29,7 @@ public class TwilioServlet extends HttpServlet
 
 		System.out.println("00: About to run voice servlet statement in TwilioServlet.java");
 		
-		rec.setAction("http://398eb060.ngrok.io/DesignGui/voice-servlet");
+		rec.setAction("https://5447f64e.ngrok.io/DesignGui/voice-servlet");
 		
 		System.out.println("01: Voice servlet statement in TwilioServlet.java passed");
 
@@ -41,6 +43,10 @@ public class TwilioServlet extends HttpServlet
 			try
 			{
 				// Prompt
+				Queries qu = new Queries();
+				qu.setType("voice");
+				Broadcaster.broadcast("input", qu);
+				
 				response.append(new Say("Please say your query in a clear tone"));
 				
 				System.out.println("02: About to run append recording statement in TwilioServlet.java");

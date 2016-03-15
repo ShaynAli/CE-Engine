@@ -42,6 +42,7 @@ public interface Communicate {
 	
 	public static void sendText (String text, String phone) {
 		text = text.replace("&#39;", "'");
+		text = text.replace("&quot;", "");
 		
 		if (text.length() > 1600) {
 			int num = Math.floorDiv(text.length(), 1600) + 1;

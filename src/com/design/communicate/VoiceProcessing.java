@@ -5,12 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.List;
 
+import javax.json.Json;
 import javax.json.JsonObject;
-
-import org.json.JSONObject;
 
 import com.ibm.watson.developer_cloud.http.HttpMediaType;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.RecognizeOptions;
@@ -65,10 +65,15 @@ public class VoiceProcessing {
 		
 		SpeechResults transcript = service.recognize(audio, op);
 		audio.deleteOnExit();
-		JSONObject obj = new JSONObject(transcript.toString());
-		System.out.println(obj.toString());
-		System.out.println(obj.getJSONObject("results").getJSONObject("alternative").getJSONObject("transcript").toString());
-		return obj.getJSONObject("results").getJSONObject("alternative").getJSONObject("transcript").toString();
+		JsonObject obj = Json.createReader(new StringReader(transcript.toString())).readObject();
+		String str = obj.toString();
+		str = str.split("\"transcript\":\"")[1];
+		str = str.split("\"")[0];
+		//String str = obj.getJsonObject("results").getJsonObject("alternative").getJsonString("transcript").toString();
+		System.out.println(str);
+		return str;
+		
+		//return str;
 		
 
 	}
