@@ -44,6 +44,8 @@ public class DashboardDesign extends Dashboard {
 		
 		scroll_panel.setContent(usage);
 		usageButton.setStyleName("menu-button selected");
+		
+		databaseButton.setVisible(false);
 	}
 	
 	public void clickListeners () {
@@ -225,6 +227,11 @@ public class DashboardDesign extends Dashboard {
 	public void receiveWeather (Weather weather) {
 		usage.receiveStandardQuery(weather.getQueries());
 		this.weather.receiveWeather(weather);
+	}
+
+	public void receiveString(String type, Queries qu) {
+		console.receiveString(type, qu);
+		
 	}
 	
 }

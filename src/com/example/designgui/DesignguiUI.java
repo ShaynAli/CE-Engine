@@ -51,11 +51,12 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
     }
 
 	@Override
-	public void receiveBroadcast(String message) {
+	public void receiveBroadcast(String type, Queries qu) {
 		access (new Runnable () {
 			@Override
 			public void run () {
-				
+				dashboard.receiveString(type, qu);
+				UI.getCurrent().push();
 			}
 		});
 		
@@ -93,7 +94,6 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 			}
 		});
 		
-		System.out.println("received news");
 	}
 
 	@Override

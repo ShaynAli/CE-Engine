@@ -108,9 +108,10 @@ public class DashView extends Panel {
 	        	dashboardPanels.addComponent(buildQueryTable(3));	        	
 	        } else if (type.equals("news")) {
 	        	//dashboardPanels.addComponent(c); publisher  ---> LAST CHART TO FINISH
-	        	dashboardPanels.addComponent(buildConfidenceChart(0)); 
-	        	dashboardPanels.addComponent(buildQueriesTimeChart(1));
-	        	dashboardPanels.addComponent(buildQueryTable(2));
+	        	dashboardPanels.addComponent(buildPieChart(0));
+	        	dashboardPanels.addComponent(buildConfidenceChart(1)); 
+	        	dashboardPanels.addComponent(buildQueriesTimeChart(2));
+	        	dashboardPanels.addComponent(buildQueryTable(3));
 	        } else if (type.equals("math")) {
 	        	dashboardPanels.addComponent(buildPieChart(0));
 	        	dashboardPanels.addComponent(buildConfidenceChart(1));

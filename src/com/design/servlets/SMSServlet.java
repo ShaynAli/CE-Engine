@@ -20,6 +20,7 @@ import com.design.data.Weather;
 import com.design.data.Wolfram;
 import com.design.persistence.Queries;
 import com.design.persistence.Users;
+import com.example.designgui.Broadcaster;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.NaturalLanguageClassifier;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.ClassifiedClass;
@@ -52,6 +53,13 @@ public class SMSServlet extends HttpServlet {
     		
     		 response.setContentType(null);
              response.getWriter().print(twiml.toXML());
+             
+             Queries qu = new Queries();
+             qu.setPhone(user);
+             qu.setQuery(request.getParameter("Body"));
+             qu.setType("sms");
+             System.out.println("broadcasting");
+             Broadcaster.broadcast("input", qu);
     		
             processQuery(request.getParameter("Body"));
             
@@ -115,20 +123,25 @@ public class SMSServlet extends HttpServlet {
     		System.out.println(classification.getTopClass());
     		if (classification.getTopClass().equals("directions")) {
     			query.setClass1("directions");
+    			Broadcaster.broadcast("class", query);
     			Maps.googleMaps(query);
     		} else if (classification.getTopClass().equals("math")) {
     			query.setClass1("math");
+    			Broadcaster.broadcast("class", query);
     			Wolfram.wolframAlpha(query);
     		} else if (classification.getTopClass().equals("weather")) {
     			query.setClass1("weather");
+    			Broadcaster.broadcast("class", query);
     			Weather.weather(query);
     		} else if (classification.getTopClass().equals("news")) {
     			query.setClass1("news");
+    			Broadcaster.broadcast("class", query);
     			News.getNews(query);
     		}
     		else
     		{
     			query.setClass1("math");
+    			Broadcaster.broadcast("class", query);
     			Wolfram.wolframAlpha(query);
     			
     		}

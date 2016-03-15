@@ -15,7 +15,7 @@ public class Broadcaster implements Serializable {
 		static ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 	    public interface BroadcastListener {
-	        void receiveBroadcast(String message);
+	        void receiveBroadcast(String type, Queries qu);
 	        void receiveBroadcast(Queries qu);
 	        void receiveBroadcast(Directions dir);
 	        void receiveBroadcast(News news);
@@ -32,12 +32,12 @@ public class Broadcaster implements Serializable {
 	        listeners.remove(listener);
 	    }
 
-	    public static synchronized void broadcast(final String message) {
+	    public static synchronized void broadcast(final String type, final Queries qu) {
 	        for (final BroadcastListener listener: listeners)
 	            executorService.execute(new Runnable() {
 	                @Override
 	                public void run() {
-	                    listener.receiveBroadcast(message);
+	                    listener.receiveBroadcast(type, qu);
 	                }
 	            });
 	    }
