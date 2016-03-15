@@ -88,7 +88,7 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 		this.access(new Runnable ()  {
 			@Override
 			public void run () {
-				Notification.show("received " + news.getQueries().getQuery(), Type.ERROR_MESSAGE);
+				dashboard.receiveNews(news);
 				UI.getCurrent().push();
 			}
 		});
@@ -101,7 +101,8 @@ public class DesignguiUI extends UI implements Broadcaster.BroadcastListener {
 		this.access(new Runnable () {
 			@Override
 			public void run () {
-				
+				dashboard.receiveWeather(weather);
+				UI.getCurrent().push();
 			}
 		});
 	}

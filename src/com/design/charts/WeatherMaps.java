@@ -46,5 +46,11 @@ public class WeatherMaps extends VerticalLayout {
 		}
 		
 	}
+
+	public void receiveWeather(Weather weather) {
+		if (weather.getLatitude() != null) {
+			map.addMarker(null, new LatLon(weather.getLatitude(), weather.getLongitude()), false, null);
+		}
+	}
 	
 }

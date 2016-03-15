@@ -12,7 +12,9 @@ import com.design.charts.QueryClassPieChart;
 import com.design.charts.TableWrapper;
 import com.design.charts.WeatherMaps;
 import com.design.persistence.Directions;
+import com.design.persistence.News;
 import com.design.persistence.Queries;
+import com.design.persistence.Weather;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -330,6 +332,21 @@ public class DashView extends Panel {
 			confchart.receiveStandardQuery(qu);
 			wrap.receiveWolfram(qu);
 		}
+		
+	}
+
+	public void receiveNews(News news) {
+		confchart.receiveStandardQuery(news.getQueries());
+		timechart.receiveStandardQuery(news.getQueries());
+		wrap.receiveNews(news);
+		
+	}
+
+	public void receiveWeather(Weather weather) {
+		confchart.receiveStandardQuery(weather.getQueries());
+		timechart.receiveStandardQuery(weather.getQueries());
+		wrap.receiveWeather(weather);
+		wemap.receiveWeather(weather);
 		
 	}
 

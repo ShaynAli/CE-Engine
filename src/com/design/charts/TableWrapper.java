@@ -10,6 +10,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import com.design.persistence.Directions;
 import com.design.persistence.News;
 import com.design.persistence.Queries;
+import com.design.persistence.Weather;
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Alignment;
@@ -167,7 +168,7 @@ public class TableWrapper extends VerticalLayout {
 		}
 		
 		table.setVisibleColumns("#", "query", "success");
-		table.sort(new Object [] {"type"}, new boolean [] {false});
+		table.sort(new Object [] {"#"}, new boolean [] {false});
 		
 		return table;
 	}
@@ -287,6 +288,25 @@ public class TableWrapper extends VerticalLayout {
 		box.setEnabled(false);
 		table.addItem(new Object [] {table.size() + 1, qu.getQuery(), box},
 				qu.getId());
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+	}
+
+	public void receiveNews(News news) {
+		CheckBox box = new CheckBox();
+		box.setValue(news.getQueries().getSuccessful());
+		box.setEnabled(false);
+		
+		table.addItem(new Object [] {table.size() + 1, news.getQueries().getQuery(), box, news.getPublisher()}, news.getId());
+		table.sort(new Object [] {"#"}, new boolean [] {false});
+		
+	}
+
+	public void receiveWeather(Weather weather) {
+		CheckBox box = new CheckBox();
+		box.setValue(weather.getQueries().getSuccessful());
+		box.setEnabled(false);
+		
+		table.addItem(new Object [] {table.size() + 1,  weather.getQueries().getQuery(), box}, weather.getId());
 		table.sort(new Object [] {"#"}, new boolean [] {false});
 	}
 	

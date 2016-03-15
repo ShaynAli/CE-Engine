@@ -1,7 +1,9 @@
 package com.design.dashboard;
 
 import com.design.persistence.Directions;
+import com.design.persistence.News;
 import com.design.persistence.Queries;
+import com.design.persistence.Weather;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
@@ -212,8 +214,17 @@ public class DashboardDesign extends Dashboard {
 		if (qu.getClass1().equals("math")) {
 			math.receiveQuery(qu);
 			usage.receiveStandardQuery(qu);
-			
 		}
+	}
+	
+	public void receiveNews (News news) {
+		usage.receiveStandardQuery(news.getQueries());
+		this.news.receiveNews(news);
+	}
+	
+	public void receiveWeather (Weather weather) {
+		usage.receiveStandardQuery(weather.getQueries());
+		this.weather.receiveWeather(weather);
 	}
 	
 }
