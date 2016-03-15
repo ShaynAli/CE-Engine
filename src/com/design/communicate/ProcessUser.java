@@ -57,7 +57,9 @@ public class ProcessUser {
 		if (query.getSuccessful()) {
 			if (query.getType().equals("sms")) {
 				System.out.println("sending");
+				Broadcaster.broadcast(output, query);
 				Communicate.sendText(output, query.getPhone().getPhone());
+				Broadcaster.broadcast("twilio", query);
 				System.out.println("sent");
 				
 				String key = "&key=AIzaSyAjXKpbYwL4CFbXVtNbLKKE9cOrlrsI05Q";
@@ -105,7 +107,9 @@ public class ProcessUser {
 		if (directions == null) {
 			Communicate.sendText("Unable to parse your directions query.", query.getPhone().getPhone());
 		} else {
+			Broadcaster.broadcast(directions, query);
 			Communicate.sendText(directions, query.getPhone().getPhone());
+			Broadcaster.broadcast("twilio", query);
 		}
 		
 		Directions dirc = new Directions();
@@ -162,7 +166,9 @@ public class ProcessUser {
 			if (message == null) {
 				Communicate.sendText("Unable to parse your news query.", query.getPhone().getPhone());
 			} else {
+				Broadcaster.broadcast(message, query);
 				Communicate.sendText(message, query.getPhone().getPhone());
+				Broadcaster.broadcast("twilio", query);
 			}
 		} else {
 			
@@ -192,7 +198,9 @@ public class ProcessUser {
 	
 	public static void persistWolfram (Queries query, String result) {
 		if (query.getType().equals("sms")) {
+			Broadcaster.broadcast(result, query);
 			Communicate.sendText(result, query.getPhone().getPhone());
+			Broadcaster.broadcast("twilio", query);
 		}
 		
 		query.setId(persistQuery(query));
