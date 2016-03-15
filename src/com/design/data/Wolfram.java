@@ -98,7 +98,7 @@ public class Wolfram
 				// WIP
 				
 				
-				
+				System.out.println("Wolfram Module iterating through pods");
 				// First few pods included
 				for (int podI = 0 ; podI < NO_PODS_TO_INCL && podI < pods.length; podI++)
 				{
@@ -119,13 +119,13 @@ public class Wolfram
 									StringBuilder eText = new StringBuilder(((WAPlainText) element).getText());
 									if(eText.length()>0)
 									{
-										eText.replace(0, 1, "" + Character.toUpperCase(eText.charAt(0))); // Capitalization WIP
-										for(int i = 0; i < eText.length(); i++)
-										{
-											if(eText.charAt(i)=='\n')
-											{
-												eText.replace(i+1, i+2, "" + Character.toUpperCase(eText.charAt(i)));
-											}
+//										eText.replace(0, 1, "" + Character.toUpperCase(eText.charAt(0))); // Capitalization WIP
+//										for(int i = 0; i < eText.length(); i++)
+//										{
+//											if(eText.charAt(i)=='\n')
+//											{
+//												eText.replace(i+1, i+2, "" + Character.toUpperCase(eText.charAt(i)));
+//											}
 										}
 										result.append(eText);
 									}
@@ -135,14 +135,14 @@ public class Wolfram
 							result.append('\n');
 						}
 						// If there are no actual WAPlainText elements remove the pod titles
-						if (result.length() - 1 == resLength)
-						{
-							result.delete(result.length() - (pods[podI].getTitle().length() + 3 + subpods.length), result.length());
-						}
-						else
-						{
+//						if (result.length() - 1 == resLength)
+//						{
+//							result.delete(result.length() - (pods[podI].getTitle().length() + 3 + subpods.length), result.length());
+//						}
+//						else
+//						{
 							result.append('\n');
-						}
+//						}
 					}
 					else
 					{
