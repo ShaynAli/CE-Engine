@@ -25,7 +25,7 @@ import com.wolfram.alpha.WASubpod;
 public class Wolfram
 {
  
-		static int NO_PODS_TO_INCL = 4;
+		static int NO_PODS_TO_INCL = 5;
 		static HashSet<String> alwaysInclIDs = new HashSet<String>(Arrays.asList()); // POD IDs to always include, if they exist for a query
 		static HashSet<String> alwaysExclIDsAndTitles = new HashSet<String>(Arrays.asList("Plot", "Location", "Local map", "")); // POD IDs to always exclude, if they exist for a query
 		
@@ -130,7 +130,7 @@ public class Wolfram
 						// If there are no actual WAPlainText elements remove the pod titles
 						if (result.length() - 1 == resLength)
 						{
-							result.delete(result.length() - (pods[podI].getTitle().length() + 3), result.length());
+							result.delete(result.length() - (pods[podI].getTitle().length() + 3 + subpods.length), result.length());
 						}
 						else
 						{
@@ -145,6 +145,12 @@ public class Wolfram
 				
 				// Include pods which must always be included at the end (if they exist)
 				// WIP
+			}
+			
+			// No meaningful output
+			if (result.length()<=0)
+			{
+				result.append("Your query was understood, but no meaningful text response could be generated");
 			}
 					
 
