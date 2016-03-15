@@ -24,7 +24,7 @@ import com.wolfram.alpha.WASubpod;
 // This was originally an interface, it may be better as a class or it may not be
 public class Wolfram {
 	 
-	static int NO_PODS_TO_INCL = 4;
+	static int NO_PODS_TO_INCL = 3;
 	static HashSet<String> alwaysExclIDs = new HashSet<String>(Arrays.asList("", " ", "Plot", "Location", "Local map", "3DPlot", "ContourPlot", "Timeline")); // POD IDs (and titles) to always exclude, if they exist for a query
 
 	public static String wolframAlpha(Queries qu)
