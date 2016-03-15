@@ -7,8 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 
 import com.design.communicate.VoiceProcessing;
 import com.twilio.sdk.verbs.Play;
@@ -37,12 +35,9 @@ public class TwilioVoiceServlet extends HttpServlet
 				response.append(new Say ("End of message"));
 				
 				response.append(new Say ("Processing request"));
-//				URL queryURL = new URL(recordingUrl);
-//				File queryAudio = new File(queryURL.getFile());
-//				String queryResponse = new String(VoiceProcessing.getString(queryAudio));
-//				response.append(new Say(queryResponse));
-				AudioSystem audioStream = AudioSystem.getAudioInputStream(new URL(recordingUrl));
-				AudioFormat format = audioStream.getFormat();
+				URL queryURL = new URL(recordingUrl);
+				String queryResponse = new String(VoiceProcessing.processAudio(queryURL));
+				response.append(new Say(queryResponse));
 				
 				response.append(new Say(VoiceProcessing.getString(queryAudio)));
 			}
