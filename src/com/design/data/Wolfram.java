@@ -111,11 +111,14 @@ public class Wolfram {
 								{
 									if (element instanceof WAPlainText)
 									{
-										result.append(((WAPlainText) element).getText());
+										StringBuilder eText = new StringBuilder(((WAPlainText) element).getText());
+										eText.replace(0, 1, "" + Character.toUpperCase(eText.charAt(0)));
+										result.append(eText);
 									}
 								}
 								result.append('\n');
 							}
+							result.append('\n');
 						}
 						else
 						{

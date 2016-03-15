@@ -25,11 +25,11 @@ public class TwilioServlet extends HttpServlet
 		Record rec = new Record();
 		rec.setMaxLength(REC_DURATION);
 
-		System.out.print("00: About to run voice servlet statement in TwilioServlet.java");
+		System.out.println("00: About to run voice servlet statement in TwilioServlet.java");
 		
 		rec.setAction("/voice-servlet");
 		
-		System.out.print("01: Voice servlet statement in TwilioServlet.java passed");
+		System.out.println("01: Voice servlet statement in TwilioServlet.java passed");
 
 //		String recordingUrl = httpRequest.getParameter("RecordingURL");
 //		System.out.println("Recording URL: " + recordingUrl);
