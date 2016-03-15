@@ -29,7 +29,7 @@ public class TwilioServlet extends HttpServlet
 			e.printStackTrace();
 		}
 		
-		HttpResponse.setContentType("applicition/xml");
+		HttpResponse.setContentType("application/xml");
 		HttpResponse.getWriter().print(response.toXML());
 		
 	} // service class
