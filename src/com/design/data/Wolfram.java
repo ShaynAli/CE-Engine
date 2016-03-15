@@ -147,6 +147,7 @@ public class Wolfram {
 				if (illuminatiConfirmed)
 				{
 					result.append("Jet fuel can't melt steel beams\n");
+					System.out.println("dank memes");
 				}
 			}
 			else
