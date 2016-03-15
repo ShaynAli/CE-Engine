@@ -60,6 +60,7 @@ public class VoiceProcessing {
 		op.model("en-US_NarrowbandModel");
 		
 		SpeechResults transcript = service.recognize(audio, op);
+		System.out.println(transcript);
 		audio.deleteOnExit();
 		return transcript.toString();
 
