@@ -18,7 +18,7 @@ public class TwilioServlet extends HttpServlet
 	public void service(HttpServletRequest HttpRequest, HttpServletResponse HttpResponse) throws IOException
 	{
 		TwiMLResponse response = new TwiMLResponse();
-		Say say = new Say("Hello world");
+		Say say = new Say("VOICE VOICE VOICE VOICE VOICE VOICE");
 		
 		try
 		{
