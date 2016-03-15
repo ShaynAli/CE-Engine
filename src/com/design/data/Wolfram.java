@@ -107,7 +107,7 @@ public class Wolfram {
 			WAPod[] pods = queryResult.getPods();
 			
 			// Result generation
-			if (pods.length > 1)
+			if (pods.length > 0)
 			{
 				// Include pods which must always be included first (if they exist)
 				// WIP
