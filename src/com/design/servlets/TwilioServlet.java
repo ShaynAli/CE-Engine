@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.twilio.sdk.verbs.Play;
 import com.twilio.sdk.verbs.Record;
 import com.twilio.sdk.verbs.Say;
 import com.twilio.sdk.verbs.TwiMLException;
@@ -26,34 +25,35 @@ public class TwilioServlet extends HttpServlet
 		Record rec = new Record();
 		rec.setMaxLength(REC_DURATION);
 		
-//		rec.setAction("/voice-servlet");
+		rec.setAction("/voice-servlet");
 
-		String recordingUrl = httpRequest.getParameter("RecordingURL");
-		System.out.println("Recording URL: " + recordingUrl);
+//		String recordingUrl = httpRequest.getParameter("RecordingURL");
+//		System.out.println("Recording URL: " + recordingUrl);
 		
 		// Send a response
-		if (recordingUrl != null)
-		{
+//		if (recordingUrl != null)
+//		{
+//			System.out.println("recordingURL was not null");
 			try
 			{
 				// Prompt
 				response.append(new Say("Please say your query in a clear tone"));
 				response.append(rec);
-				response.append(new Say ("Here is what was picked up"));
-				response.append(new Play (recordingUrl));
-				response.append(new Say ("End of message"));
+//				response.append(new Say ("Here is what was picked up"));
+//				response.append(new Play (recordingUrl));
+//				response.append(new Say ("End of message"));
 			}
 			catch(TwiMLException e)
 			{
 				e.printStackTrace();
 			}
-		}
-		else
-		{
-			System.out.println("recordingURL was null");
-			httpResponse.sendRedirect("/echo");
-			return;
-		}
+//		}
+//		else
+//		{
+//			System.out.println("recordingURL was null");
+//			httpResponse.sendRedirect("/echo");
+//			return;
+//		}
 		httpResponse.setContentType("application/xml");
 		httpResponse.getWriter().print(response.toXML());
 		

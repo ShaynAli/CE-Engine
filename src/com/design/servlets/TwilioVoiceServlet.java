@@ -24,6 +24,7 @@ public class TwilioVoiceServlet extends HttpServlet
 		
 		if (recordingUrl != null)
 		{
+			System.out.println("Attempting to record call");
 			try
 			{
 				// Give user heads up on playing recording
