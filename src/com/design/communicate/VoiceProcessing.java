@@ -8,6 +8,10 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
 
+import javax.json.JsonObject;
+
+import org.json.JSONObject;
+
 import com.ibm.watson.developer_cloud.http.HttpMediaType;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
@@ -60,9 +64,11 @@ public class VoiceProcessing {
 		op.model("en-US_NarrowbandModel");
 		
 		SpeechResults transcript = service.recognize(audio, op);
-		System.out.println(transcript);
 		audio.deleteOnExit();
-		return transcript.toString();
+		JSONObject obj = new JSONObject(transcript.toString());
+		System.out.println(obj.getJSONObject("results").getJSONObject("alternative").getJSONObject("transcript").toString());
+		return obj.getJSONObject("results").getJSONObject("alternative").getJSONObject("transcript").toString();
+		
 
 	}
 	

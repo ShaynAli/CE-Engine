@@ -74,6 +74,8 @@
    <dependency org="org.json" name="json" rev="20160212"/>
    <dependency org="com.vaadin.tapio" name="googlemaps" rev="1.1.2" />
    <dependency org="com.amazonaws" name="aws-java-sdk" rev="1.10.60"/>
+   <dependency org="org.glassfish" name="javax.json" rev="1.0.4"/>
+   
    
 
    
