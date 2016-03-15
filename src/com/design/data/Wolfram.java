@@ -107,8 +107,8 @@ public class Wolfram {
 			WAPod[] pods = queryResult.getPods();
 			
 			// Result generation
-			if (pods.length > 0)
-			{
+//			if (pods.length > 0)
+//			{
 				// Include pods which must always be included first (if they exist)
 				// WIP
 				// First few pods included
@@ -149,11 +149,11 @@ public class Wolfram {
 					result.append("Jet fuel can't melt steel beams\n");
 					System.out.println("dank memes");
 				}
-			}
-			else
-			{
-				result.append("The answer could not be returned in text form.");
-			}
+//			}
+//			else
+//			{
+//				result.append("The answer could not be returned in text form.");
+//			}
 			
 			// Include pods which must always be included at the end (if they exist)
 			// WIP
