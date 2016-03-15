@@ -23,11 +23,11 @@ public class MakeCall {
         Account mainAccount = client.getAccount();
         ArrayList<NameValuePair> callParams = new ArrayList<NameValuePair>();
 //        callParams.add(new BasicNameValuePair ("To", number)); // Receiving number
-        callParams.add(new BasicNameValuePair ("To", "+14165623181")); // Receiving number
+//        callParams.add(new BasicNameValuePair ("To", "+14165623181")); // Receiving number
         callParams.add(new BasicNameValuePair ("From", "+12892721224"));
-        callParams.add(new BasicNameValuePair ("Url", "http://demo.twilio.com/welcome/voice/"));
+        callParams.add(new BasicNameValuePair ("Url", "http://demo.twilio.com/welcome/voice/")); // WIP: change URL to server URL
         callParams.add(new BasicNameValuePair("Method", "GET"));
-        callParams.add(new BasicNameValuePair("StatusCallback", "https://www.myapp.com/events"));
+        callParams.add(new BasicNameValuePair("StatusCallback", "https://www.myapp.com/events")); // WIP: change URL to server URL
         callParams.add(new BasicNameValuePair("StatusCallbackMethod", "POST"));
         callParams.add(new BasicNameValuePair("StatusCallbackEvent", "initiated"));
         callParams.add(new BasicNameValuePair("StatusCallbackEvent", "ringing"));
@@ -37,7 +37,7 @@ public class MakeCall {
         CallFactory callFactory = mainAccount.getCallFactory();
         Call call = callFactory.create(callParams);
         // Print the call SID (a 32 digit hex like CA123..)
-        System.out.println(call.getSid());
+        System.out.println("Call SID:" + call.getSid());
     }
     
     /*
