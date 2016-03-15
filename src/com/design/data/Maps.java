@@ -22,12 +22,17 @@ import com.design.servlets.SMSServlet;
 
 public class Maps {
 
+	 public static String googleMapss (Queries query) {
+		 String [] results = detDirections(query);
+		 return getAPIResults(results, query); 
+	 }
+	
 	 public static void googleMaps (Queries query) {
 		 String [] results = detDirections(query);
-		 boolean some = getAPIResults(results, query); 
+		 String some = getAPIResults(results, query); 
 	 }
 	 
-	 private static boolean getAPIResults (String [] parameters, Queries qu) {		 
+	 private static String getAPIResults (String [] parameters, Queries qu) {		 
 		 String query = "https://maps.googleapis.com/maps/api/directions/json?origin=" + parameters[0] +"&"
 		 		+ "destination=" + parameters[1] + "&key=AIzaSyBbcq6id_NE2X_M-Fr7vXqCV6DLLYcDZ78";
 		 query = query.replace(" ", "+");
@@ -45,7 +50,7 @@ public class Maps {
 			ProcessUser.persistDirection(parameters, qu, distance, time);
 			e.printStackTrace();
 			
-			return false;
+			return null;
 		 }
 			
 		 try {
@@ -67,7 +72,7 @@ public class Maps {
 				ProcessUser.persistDirection(parameters, qu, distance, time);
 				ex.printStackTrace();
 				
-				return false;
+				return null;
 			}
 			
 			
@@ -96,6 +101,7 @@ public class Maps {
 			qu.setSuccessful(true);
 			qu.setResponseTime(((double) System.currentTimeMillis() - SMSServlet.queryTime)/1000);
 			ProcessUser.persistDirection(parameters, qu, distance, time, directions);
+			return directions;
 			
 		 } catch (Exception ex) {
 			 qu.setSuccessful(false);
@@ -103,9 +109,9 @@ public class Maps {
 			 ProcessUser.persistDirection(parameters, qu, distance, time);
 			 ex.printStackTrace();
 				
-			 return false;
+			 return null;
 		 }
-		 return true;
+		 
 	 }
 	 
 	 

@@ -27,7 +27,7 @@ public class Wolfram {
 			public static boolean wolframAlpha(Queries qu)
 			{
 		    	String queryStr = qu.getQuery();
-				StringBuilder result = new StringBuilder(".\n");
+				StringBuilder result = new StringBuilder();
 		    	
 		    	// Basic engine setup
 		    	WAEngine engine = new WAEngine();

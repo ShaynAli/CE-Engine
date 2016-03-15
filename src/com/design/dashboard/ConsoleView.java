@@ -16,7 +16,6 @@ public class ConsoleView extends Console {
 		titleLabel.addStyleName(ValoTheme.LABEL_H1);
         titleLabel.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         textarea.addStyleName("v-textfield-my-text");
-        textarea.setEnabled(false);
        // textarea.add
 	}
 

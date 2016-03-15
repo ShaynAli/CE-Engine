@@ -41,22 +41,39 @@ public interface Communicate {
     }*/
 	
 	public static void sendText (String text, String phone) {
-    	TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
-    	 
-        // Build a filter for the MessageList
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("Body", text));
-        params.add(new BasicNameValuePair("To", phone));
-        params.add(new BasicNameValuePair("From", "+12892721224"));
-     
-        MessageFactory messageFactory = client.getAccount().getMessageFactory();
-        Message message = null;
-		try {
-			message = messageFactory.create(params);
-		} catch (TwilioRestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		text = text.replace("&#39;", "'");
+		
+		if (text.length() > 1600) {
+			int num = Math.floorDiv(text.length(), 1600) + 1;
+			int length = text.length();
+			System.out.println("Length: " + length);
+			for (int i = 0; i < length; i += 1600) {
+				int end = i + 1600;
+				if (end > text.length()) {
+					end = text.length() - 1;
+				}
+				System.out.println(i);
+				Communicate.sendText(text.substring(i, end), phone);
+			}
+		} else {
+			TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
+	    	 
+	        // Build a filter for the MessageList
+	        List<NameValuePair> params = new ArrayList<NameValuePair>();
+	        params.add(new BasicNameValuePair("Body", text));
+	        params.add(new BasicNameValuePair("To", phone));
+	        params.add(new BasicNameValuePair("From", "+12892721224"));
+	     
+	        MessageFactory messageFactory = client.getAccount().getMessageFactory();
+	        Message message = null;
+			try {
+				message = messageFactory.create(params);
+			} catch (TwilioRestException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        System.out.println(message.getSid());
 		}
-        System.out.println(message.getSid());
+
     }
 }
