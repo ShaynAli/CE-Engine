@@ -42,7 +42,13 @@ public class TwilioServlet extends HttpServlet
 			{
 				// Prompt
 				response.append(new Say("Please say your query in a clear tone"));
+				
+				System.out.println("02: About to run append recording statement in TwilioServlet.java");
+				
 				response.append(rec);
+				
+				System.out.println("03: Append recording statement in TwilioServlet.java passed");
+				
 //				response.append(new Say ("Here is what was picked up"));
 //				response.append(new Play (recordingUrl));
 //				response.append(new Say ("End of message"));
